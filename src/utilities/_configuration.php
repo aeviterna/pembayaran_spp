@@ -8,4 +8,5 @@ class Configuration
     const DATABASE_PASSWORD = "mirae";
     const DATABASE_NAME = "pwpb_spp";
     const TIMEZONE = "Asia/Makassar";
+    const PATH = "pwpb/pembayaran_spp";
 }

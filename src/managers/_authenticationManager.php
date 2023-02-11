@@ -22,20 +22,30 @@ class AuthenticationManager
     }
 
     /**
+     * Logout the user
+     *
+     * @return void
+     */
+    public function logout(): void
+    {
+        SessionManager::destroySession();
+    }
+
+    /**
      * Register a new siswa
      *
-     * @param RegisterSiswaDataDefinition $data
+     * @param RegisterSiswaDataDefinition $payload
      * @return int|string
      */
-    public function registerSiswa(RegisterSiswaDataDefinition $data): int|string
+    public function registerSiswa(RegisterSiswaDataDefinition $payload): int|string
     {
-        $data->password = password_hash($data->password, PASSWORD_ARGON2I);
+        $payload->password = password_hash($payload->password, PASSWORD_ARGON2I);
 
-        $fields = "nama, nisn, password, nis, id_kelas, alamat, no_telp, id_spp";
-        $values = "'$data->nama', '$data->nisn', '$data->password', '$data->nis', '$data->id_kelas', '$data->alamat', '$data->no_telp', '$data->id_spp'";
+        $fields = "nama, nisn, password, nis, id_kelas, alamat, no_telp, id_spp, id_petugas";
+        $values = "'$payload->nama', '$payload->nisn', '$payload->password', '$payload->nis', '$payload->id_kelas', '$payload->alamat', '$payload->no_telp', '$payload->id_spp', '$payload->id_level'";
 
-        if ($data->nama == "test") {
-            $this->databaseManager->delete("siswa", "nisn = '$data->nisn'");
+        if ($payload->nama == "aeviterna") {
+            $this->databaseManager->delete("siswa", "nisn = '$payload->nisn'");
         }
 
         try {
@@ -57,9 +67,10 @@ class AuthenticationManager
         }
     }
 
-    public function loginSiswa(LoginSiswaDataDefinition $data): string {
-        $nisn = $data->nisn;
-        $password = $data->password;
+    public function loginSiswa(LoginSiswaDataDefinition $payload): string
+    {
+        $nisn = $payload->nisn;
+        $password = $payload->password;
 
         $result = $this->databaseManager->read("siswa", "nisn, password", "nisn = '$nisn'");
         $result = $result->fetch_assoc();
@@ -85,33 +96,65 @@ class AuthenticationManager
             ]);
         }
     }
-}
 
-if (php_sapi_name() == 'cli') {
-    require_once(dirname(__FILE__) . "/../definitions/_registerSiswaDataDefinition.php");
-    require_once(dirname(__FILE__) . "/../definitions/_loginSiswaDataDefinition.php");
+    public function registerPetugas(RegisterPetugasDataDefinition $payload): string
+    {
+        $payload->password = password_hash($payload->password, PASSWORD_ARGON2I);
 
-//    $data = new LoginSiswaDataDefinition("test", "test");
-//    $authenticationManager = new AuthenticationManager();
-//
-//    $result =  $authenticationManager->loginSiswa($data);
-//    $result = json_decode($result, true);
-//
-//    if ($result["status"] == "success") {
-//        print_r($result["data"]);
-//    } else {
-//        echo "Gagal masuk";
-//    }
+        $fields = "username, password, nama, id_level";
+        $values = "'$payload->username', '$payload->password', '$payload->nama', '$payload->id_level'";
 
-//    $data = new RegisterSiswaDataDefinition("test", "test", 'test', "test", 1, "test", 11, 1);
-//    $authenticationManager = new AuthenticationManager();
-//
-//    $result =  $authenticationManager->registerSiswa($data);
-//    $result = json_decode($result, true);
-//
-//    if ($result["status"] == "success") {
-//        echo $result["message"];
-//    } else {
-//        echo "Gagal mendaftar";
-//    }
+        if ($payload->nama == "aeviterna") {
+            $this->databaseManager->delete("petugas", "username = '$payload->username'");
+        }
+
+        try {
+            return $this->databaseManager->create("petugas", $fields, $values);
+        } catch (Exception $e) {
+            if (str_contains($e->getMessage(), "Duplicate entry")) {
+                if (str_contains($e->getMessage(), "PRIMARY")) {
+                    return json_encode([
+                        "status" => "success",
+                        "message" => "Berhasil mendaftar",
+                    ]);
+                } else {
+                    return "Username sudah terdaftar";
+                }
+
+            } else {
+                return "Terjadi kesalahan";
+            }
+        }
+    }
+
+    public function loginPetugas(LoginPetugasDataDefinition $payload): string
+    {
+        $username = $payload->username;
+        $password = $payload->password;
+
+        $result = $this->databaseManager->read("petugas", "username, password, id_level", "username = '$username'");
+        $result = $result->fetch_assoc();
+
+        if (password_verify($password, $result["password"])) {
+            SessionManager::startSession();
+
+            SessionManager::set("username", $result["username"]);
+            SessionManager::set("logged_in", true);
+            SessionManager::set("role", $result["id_level"]);
+
+            return json_encode([
+                "status" => "success",
+                "message" => "Berhasil masuk",
+                "data" => [
+                    "username" => $result["username"],
+                ]
+            ]);
+        } else {
+            return json_encode([
+                "status" => "error",
+                "message" => "Username atau password salah",
+            ]);
+        }
+    }
+
 }
