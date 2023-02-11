@@ -38,6 +38,7 @@
         });
         return false;
     }
+
     function errorModal(text, path, hidden = null) {
         if (hidden != null) document.getElementById(hidden).style.display = "none";
         Swal.fire({
@@ -59,7 +60,8 @@
             }
         });
     }
-    function successModal(text, path, hidden = null) {
+
+    function successModal(text, path, hidden = null, replacePath) {
         if (hidden != null) document.getElementById(hidden).style.display = "none";
         Swal.fire({
             title: "Berhasil",
@@ -73,6 +75,11 @@
             if (path != null) {
                 window.location = path;
             }
+
+            if (replacePath != null) {
+                window.location.replace(replacePath);
+            }
+
             if (hidden != null) {
                 setTimeout(() => {
                     document.getElementById(hidden).style.display = "block";

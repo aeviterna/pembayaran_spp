@@ -2,12 +2,12 @@
 
 class RegisterPetugasDataDefinition
 {
-    public string $nama;
-    public string $username;
-    public string $password;
-    public string $id_level;
+    public string|null $nama;
+    public string|null $username;
+    public string|null $password;
+    public string|null $id_level;
 
-    public function __construct(string $nama, string $username, string $password, string $id_level)
+    public function __construct(string|null $nama, string|null $username, string|null $password, string|null $id_level)
     {
         $this->nama = $nama;
         $this->username = $username;

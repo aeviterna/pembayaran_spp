@@ -35,11 +35,7 @@ class DatabaseManager
         $stmt = $this->connection->prepare($query);
         $stmt->execute();
 
-        if ($stmt->execute()) {
-            return $stmt->insert_id;
-        } else {
-            return $stmt->error;
-        }
+        return $stmt->insert_id;
     }
 
     /**
