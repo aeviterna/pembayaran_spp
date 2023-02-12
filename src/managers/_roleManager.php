@@ -2,7 +2,8 @@
 
 require_once(dirname(__FILE__) . "/../utilities/_enumeration.php");
 
-class RoleManager {
+class RoleManager
+{
 
     /**
      * The role of the user
@@ -16,13 +17,24 @@ class RoleManager {
      *
      * @var array $roles
      */
-    private array $roles = [
+    public array $roles = [
         "siswa" => RoleEnumeration::SISWA,
         "petugas" => RoleEnumeration::PETUGAS,
         "administrator" => RoleEnumeration::ADMINISTRATOR,
         "superadministrator" => RoleEnumeration::SUPERADMINISTRATOR,
     ];
 
+    /**
+     * The role names provided by the system
+     *
+     * @var array $roleNames
+     */
+    public array $roleNames = [
+        RoleEnumeration::SISWA => "Siswa",
+        RoleEnumeration::PETUGAS => "Petugas",
+        RoleEnumeration::ADMINISTRATOR => "Administrator",
+        RoleEnumeration::SUPERADMINISTRATOR => "Superadministrator",
+    ];
 
     /**
      * Constructor for the RoleManager class
@@ -102,6 +114,20 @@ class RoleManager {
             return false;
         } else {
             return true;
+        }
+    }
+
+    /**
+     * Get the role list
+     *
+     * @return array|string[]
+     */
+    public function getRoleList($blacklist): array
+    {
+        if ($blacklist == null) {
+            return $this->roleNames;
+        } else {
+            return array_diff($this->roleNames, $blacklist);
         }
     }
 }

@@ -51,7 +51,6 @@ if (!$roleManager->checkMinimumRole(RoleEnumeration::ADMINISTRATOR)) {
                                         "title" => "Petugas",
                                         "link" => generateUrl('petugas')
                                     ),
-
                                 )
                             );
                             require_once(dirname(__FILE__, 4) . "/components/_contentHead.php");
@@ -59,6 +58,39 @@ if (!$roleManager->checkMinimumRole(RoleEnumeration::ADMINISTRATOR)) {
 
                             <div class="card-body">
                                 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" class="row mb-2">
+                                    <div class="col-sm">
+                                        <?php
+
+                                        $select = '<select class="form-control select2bs4" id="level" name="level">';
+                                        $select .= '<option value="0">Semua Level</option>';
+
+                                        if (isset($_POST["level"])) {
+                                            $levelFilter = $_POST["level"];
+                                            foreach ($roleManager->roles as $key => $value) {
+                                                // remove siswa role 1
+                                                if ($value != 1) {
+                                                    if ($value == $levelFilter) {
+                                                        $select .= '<option value="' . $value . '" selected>' . ucwords($key) . '</option>';
+                                                    } else {
+                                                        $select .= '<option value="' . $value . '">' . ucwords($key) . '</option>';
+                                                    }
+                                                }
+                                            }
+                                        } else {
+                                            foreach ($roleManager->roles as $key => $value) {
+                                                $select .= '<option value="' . $value . '">' . ucwords($key) . '</option>';
+                                            }
+                                        }
+                                        $select .= '</select>';
+                                        echo $select;
+
+                                        ?>
+                                    </div>
+                                    <div class="col-sm">
+                                        <button class="btn btn-primary btn-block" type="submit"><i
+                                                    class="fa fa-search"></i> Cari
+                                        </button>
+                                    </div>
                                 </form>
 
                                 <div class="row">
@@ -76,9 +108,17 @@ if (!$roleManager->checkMinimumRole(RoleEnumeration::ADMINISTRATOR)) {
                                             <tbody>
                                             <?php
 
+                                            $extraFilter = "";
+                                            if (isset($_POST["level"])) {
+                                                $levelFilter = $_POST["level"];
+                                                if ($levelFilter != 0) {
+                                                    $extraFilter = $extraFilter . " AND id_level='$levelFilter'";
+                                                }
+                                            }
+
                                             $databaseManager = new DatabaseManager();
 
-                                            $result = $databaseManager->read("petugas", "*", null, "ORDER BY nama ASC");
+                                            $result = $databaseManager->read("petugas", "*", "dihapus='0'", "$extraFilter ORDER BY nama ASC");
                                             $result = $result->fetch_all(MYSQLI_ASSOC);
 
                                             try {
