@@ -29,7 +29,7 @@ if (!$roleManager->checkMinimumRole(RoleEnumeration::ADMINISTRATOR)) {
     ?>
 </head>
 <body class="hold-transition layout-navbar-fixed layout-fixed light-mode" id="body-theme">
-<div class="wrapper">
+<div class="wrapper" id="wrapper">
     <?php
     $navigationActive = array(2, 1);
 
@@ -142,7 +142,8 @@ if (!$roleManager->checkMinimumRole(RoleEnumeration::ADMINISTRATOR)) {
                                                     <td class='text-center align-middle'>
                                                         <div class="btn-group">
                                                             <a class="btn btn-app bg-warning m-0"
-                                                               href="<?php echo generateUrl('petugas_ubah', ['id' => $id]); ?>">
+                                                               href="<?php echo generateUrl('petugas_ubah', ['id' => $id]); ?>"
+                                                            >
                                                                 <i class="fas fa-edit"></i> Ubah
                                                             </a>
 
@@ -153,6 +154,7 @@ if (!$roleManager->checkMinimumRole(RoleEnumeration::ADMINISTRATOR)) {
                                                             </a>
 
                                                             <a class="btn btn-app bg-danger m-0"
+                                                               onclick="return confirmModal('location', this, 'wrapper');"
                                                                href="<?php echo generateUrl('petugas_hapus', ['id' => $id]); ?>">
                                                                 <i class="fas fa-trash"></i> Hapus
                                                             </a>
