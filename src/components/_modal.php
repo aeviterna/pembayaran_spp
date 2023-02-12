@@ -15,6 +15,14 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 if (type === "location") {
+                    Swal.fire({
+                        title: "Mohon tunggu",
+                        html: "Sedang melakukan redireksi",
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
                     window.location = value;
                 } else if (type === "form") {
                     Swal.fire({
@@ -51,6 +59,14 @@
             showCloseButton: true
         }).then(() => {
             if (path != null) {
+                Swal.fire({
+                    title: "Mohon tunggu",
+                    html: "Sedang melakukan redireksi",
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
                 window.location = path;
             }
             if (hidden != null) {
@@ -73,10 +89,26 @@
             showCloseButton: true
         }).then(() => {
             if (path != null) {
+                Swal.fire({
+                    title: "Mohon tunggu",
+                    html: "Sedang melakukan redireksi",
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
                 window.location = path;
             }
 
             if (replacePath != null) {
+                Swal.fire({
+                    title: "Mohon tunggu",
+                    html: "Sedang melakukan redireksi",
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
                 window.location.replace(replacePath);
             }
 

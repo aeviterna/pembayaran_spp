@@ -22,6 +22,17 @@ class DatabaseManager
     }
 
     /**
+     * Prepare a string for insertion into the database
+     *
+     * @param $value
+     * @return string
+     */
+    public function escapeString($value): string
+    {
+        return $this->connection->real_escape_string($value);
+    }
+
+    /**
      * Create a new record
      *
      * @param string $table

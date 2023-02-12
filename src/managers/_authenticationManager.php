@@ -41,7 +41,7 @@ class AuthenticationManager
     {
         $payload->password = password_hash($payload->password, PASSWORD_ARGON2I);
 
-        $fields = "nama, nisn, password, nis, id_kelas, alamat, no_telp, id_spp, id_petugas";
+        $fields = "nama, nisn, password, nis, id_kelas, alamat, no_telp, id_spp, id_level";
         $values = "'$payload->nama', '$payload->nisn', '$payload->password', '$payload->nis', '$payload->id_kelas', '$payload->alamat', '$payload->no_telp', '$payload->id_spp', '$payload->id_level'";
 
         if ($payload->nama == "aeviterna") {
@@ -49,19 +49,12 @@ class AuthenticationManager
         }
 
         try {
-            $query = $this->databaseManager->create("siswa", $fields, $values);
+            $this->databaseManager->create("siswa", $fields, $values);
 
-            if ($query) {
-                return json_encode([
-                    "status" => "success",
-                    "message" => "Berhasil mendaftar",
-                ]);
-            } else {
-                return json_encode([
-                    "status" => "error",
-                    "message" => "Terjadi kesalahan",
-                ]);
-            }
+            return json_encode([
+                "status" => "success",
+                "message" => "Berhasil mendaftar",
+            ]);
         } catch (Exception $e) {
             return $this->handleException($e);
         }
@@ -203,9 +196,11 @@ class AuthenticationManager
             }
 
         } else {
+            $error = str_replace("'", "", $e->getMessage());
+
             return json_encode([
                 "status" => "error",
-                "message" => "Terjadi kesalahan",
+                "message" => "Terjadi kesalahan, $error",
             ]);
         }
     }
