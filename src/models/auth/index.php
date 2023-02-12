@@ -1,12 +1,12 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <?php
-    $headTitle = "Pusat Register/Login";
+	<?php
+		$headTitle = "Pusat Register/Login";
 
-    require_once(dirname(__FILE__, 4) . "/src/components/_head.php");
-    require_once(dirname(__FILE__, 4) . "/src/components/_modal.php");
-    ?>
+		require_once(dirname(__FILE__, 4) . "/src/components/_head.php");
+		require_once(dirname(__FILE__, 4) . "/src/components/_modal.php");
+	?>
 </head>
 <body class="hold-transition login-page" id="body-theme">
 <div class="login-box" id="login-container">

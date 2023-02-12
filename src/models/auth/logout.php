@@ -1,9 +1,9 @@
 <?php
 
-require_once(dirname(__FILE__, 4) . "/src/managers/_sessionManager.php");
+	require_once(dirname(__FILE__, 4) . "/src/managers/_sessionManager.php");
 
-SessionManager::startSession();
-SessionManager::destroySession();
+	SessionManager::startSession();
+	SessionManager::destroySession();
 
-header("Location: index.php");
+	header("Location: index.php");
 

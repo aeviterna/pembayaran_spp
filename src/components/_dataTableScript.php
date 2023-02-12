@@ -18,31 +18,31 @@
 
 <?php
 
-require_once(dirname(__FILE__, 2) . "/utilities/_enumeration.php");
-require_once(dirname(__FILE__, 2) . "/managers/_sessionManager.php");
-require_once(dirname(__FILE__, 2) . "/managers/_roleManager.php");
+	require_once(dirname(__FILE__, 2) . "/utilities/_enumeration.php");
+	require_once(dirname(__FILE__, 2) . "/managers/_sessionManager.php");
+	require_once(dirname(__FILE__, 2) . "/managers/_roleManager.php");
 
-$tableButton = [
-    "colvis"
-];
+	$tableButton = [
+		"colvis"
+	];
 
-$roleManager = new RoleManager(SessionManager::get("role"));
+	$roleManager = new RoleManager(SessionManager::get("role"));
 
-if ($roleManager->checkMinimumRole(RoleEnumeration::ADMINISTRATOR)) {
-    $tableButton[] = [
-        "extend" => "excel",
-        "exportOptions" => [
-            "columns" => [".export"]
-        ]
-    ];
+	if ($roleManager->checkMinimumRole(RoleEnumeration::ADMINISTRATOR)) {
+		$tableButton[] = [
+			"extend" => "excel",
+			"exportOptions" => [
+				"columns" => [".export"]
+			]
+		];
 
-    $tableButton[] = [
-        "extend" => "pdf",
-        "exportOptions" => [
-            "columns" => [".export"]
-        ]
-    ];
-}
+		$tableButton[] = [
+			"extend" => "pdf",
+			"exportOptions" => [
+				"columns" => [".export"]
+			]
+		];
+	}
 ?>
 
 <script>

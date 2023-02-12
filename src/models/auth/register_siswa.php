@@ -1,18 +1,18 @@
 <?php
-require_once(dirname(__FILE__, 4) . "/src/managers/_authenticationManager.php");
-require_once(dirname(__FILE__, 4) . "/src/utilities/_enumeration.php");
-require_once(dirname(__FILE__, 4) . "/src/definitions/siswa/_registerSiswaDataDefinition.php");
+	require_once(dirname(__FILE__, 4) . "/src/managers/_authenticationManager.php");
+	require_once(dirname(__FILE__, 4) . "/src/utilities/_enumeration.php");
+	require_once(dirname(__FILE__, 4) . "/src/definitions/siswa/_registerSiswaDataDefinition.php");
 ?>
 
 <!doctype html>
 <html lang="en">
 <head>
-    <?php
-    $headTitle = "Register Siswa";
+	<?php
+		$headTitle = "Register Siswa";
 
-    require_once(dirname(__FILE__, 4) . "/src/components/_head.php");
-    require_once(dirname(__FILE__, 4) . "/src/components/_modal.php");
-    ?>
+		require_once(dirname(__FILE__, 4) . "/src/components/_head.php");
+		require_once(dirname(__FILE__, 4) . "/src/components/_modal.php");
+	?>
 </head>
 <body class="hold-transition login-page" id="body-theme">
 <div class="login-box" id="login-container">
@@ -120,31 +120,31 @@ require_once(dirname(__FILE__, 4) . "/src/definitions/siswa/_registerSiswaDataDe
 
 <?php
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nisn = $_POST['nisn'] ?? null;
-    $password = $_POST['password'] ?? null;
-    $nis = $_POST['nis'] ?? null;
-    $nama = $_POST['nama'] ?? null;
-    $id_kelas = $_POST['id_kelas'] ?? null;
-    $alamat = $_POST['alamat'] ?? null;
-    $no_telp = $_POST['no_telp'] ?? null;
-    $id_spp = $_POST['id_spp'] ?? null;
-    $id_level = RoleEnumeration::SISWA;
+	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+		$nisn = $_POST['nisn'] ?? null;
+		$password = $_POST['password'] ?? null;
+		$nis = $_POST['nis'] ?? null;
+		$nama = $_POST['nama'] ?? null;
+		$id_kelas = $_POST['id_kelas'] ?? null;
+		$alamat = $_POST['alamat'] ?? null;
+		$no_telp = $_POST['no_telp'] ?? null;
+		$id_spp = $_POST['id_spp'] ?? null;
+		$id_level = RoleEnumeration::SISWA;
 
-    $payload = new RegisterSiswaDataDefinition($nama, $nisn, $password, $nis, $id_kelas, $alamat, $no_telp, $id_spp, $id_level);
-    $authenticationManager = new AuthenticationManager();
-    $result = $authenticationManager->registerSiswa($payload);
+		$payload = new RegisterSiswaDataDefinition($nama, $nisn, $password, $nis, $id_kelas, $alamat, $no_telp, $id_spp, $id_level);
+		$authenticationManager = new AuthenticationManager();
+		$result = $authenticationManager->registerSiswa($payload);
 
-    $response = json_decode($result, true);
-    $status = $response['status'];
-    $message = $response['message'];
+		$response = json_decode($result, true);
+		$status = $response['status'];
+		$message = $response['message'];
 
-    if ($status === "success") {
-        echo "<script>successModal('$message', 'login_siswa.php', 'login-container')</script>";
-    } else {
-        echo "<script>errorModal('$message', null, 'login-container')</script>";
-    }
-}
+		if ($status === "success") {
+			echo "<script>successModal('$message', 'login_siswa.php', 'login-container')</script>";
+		} else {
+			echo "<script>errorModal('$message', null, 'login-container')</script>";
+		}
+	}
 
 ?>
 

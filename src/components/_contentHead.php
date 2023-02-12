@@ -6,19 +6,19 @@
 
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-                <?php
-                if (!empty($pageItemObject['breadcrumb'])) {
-                    foreach ($pageItemObject['breadcrumb'] as $breadcrumb) {
-                        ?>
-                        <li class="breadcrumb-item">
-                            <a href="<?php echo $breadcrumb['link']; ?>">
-                                <?php echo $breadcrumb['title']; ?>
-                            </a>
-                        </li>
-                        <?php
-                    }
-                }
-                ?>
+				<?php
+					if (!empty($pageItemObject['breadcrumb'])) {
+						foreach ($pageItemObject['breadcrumb'] as $breadcrumb) {
+							?>
+                            <li class="breadcrumb-item">
+                                <a href="<?php echo $breadcrumb['link']; ?>">
+									<?php echo $breadcrumb['title']; ?>
+                                </a>
+                            </li>
+							<?php
+						}
+					}
+				?>
             </ol>
         </div>
     </div>

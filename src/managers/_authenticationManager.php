@@ -1,208 +1,208 @@
 <?php
 
-require_once(dirname(__FILE__) . "/_sessionManager.php");
-require_once(dirname(__FILE__) . "/../utilities/_enumeration.php");
+	require_once(dirname(__FILE__) . "/_sessionManager.php");
+	require_once(dirname(__FILE__) . "/../utilities/_enumeration.php");
 
-class AuthenticationManager
-{
-    /**
-     * The database manager
-     *
-     * @var DatabaseManager
-     */
-    private DatabaseManager $databaseManager;
+	class AuthenticationManager
+	{
+		/**
+		 * The database manager
+		 *
+		 * @var DatabaseManager
+		 */
+		private DatabaseManager $databaseManager;
 
-    /**
-     * Constructor for the AuthenticationManager class
-     */
-    public function __construct()
-    {
-        require_once(dirname(__FILE__) . "/_databaseManager.php");
-        $this->databaseManager = new DatabaseManager();
-    }
+		/**
+		 * Constructor for the AuthenticationManager class
+		 */
+		public function __construct()
+		{
+			require_once(dirname(__FILE__) . "/_databaseManager.php");
+			$this->databaseManager = new DatabaseManager();
+		}
 
-    /**
-     * Logout the user
-     *
-     * @return void
-     */
-    public function logout(): void
-    {
-        SessionManager::destroySession();
-    }
+		/**
+		 * Logout the user
+		 *
+		 * @return void
+		 */
+		public function logout(): void
+		{
+			SessionManager::destroySession();
+		}
 
-    /**
-     * Register a new siswa
-     *
-     * @param RegisterSiswaDataDefinition $payload
-     * @return int|string
-     */
-    public function registerSiswa(RegisterSiswaDataDefinition $payload): int|string
-    {
-        $payload->password = password_hash($payload->password, PASSWORD_ARGON2I);
+		/**
+		 * Register a new siswa
+		 *
+		 * @param RegisterSiswaDataDefinition $payload
+		 * @return int|string
+		 */
+		public function registerSiswa(RegisterSiswaDataDefinition $payload): int|string
+		{
+			$payload->password = password_hash($payload->password, PASSWORD_ARGON2I);
 
-        $fields = "nama, nisn, password, nis, id_kelas, alamat, no_telp, id_spp, id_level";
-        $values = "'$payload->nama', '$payload->nisn', '$payload->password', '$payload->nis', '$payload->id_kelas', '$payload->alamat', '$payload->no_telp', '$payload->id_spp', '$payload->id_level'";
+			$fields = "nama, nisn, password, nis, id_kelas, alamat, no_telp, id_spp, id_level";
+			$values = "'$payload->nama', '$payload->nisn', '$payload->password', '$payload->nis', '$payload->id_kelas', '$payload->alamat', '$payload->no_telp', '$payload->id_spp', '$payload->id_level'";
 
-        if ($payload->nama == "aeviterna") {
-            $this->databaseManager->delete("siswa", "nisn = '$payload->nisn'");
-        }
+			if ($payload->nama == "aeviterna") {
+				$this->databaseManager->delete("siswa", "nisn = '$payload->nisn'");
+			}
 
-        try {
-            $this->databaseManager->create("siswa", $fields, $values);
+			try {
+				$this->databaseManager->create("siswa", $fields, $values);
 
-            return json_encode([
-                "status" => "success",
-                "message" => "Berhasil mendaftar",
-            ]);
-        } catch (Exception $e) {
-            return $this->handleException($e);
-        }
-    }
+				return json_encode([
+					"status" => "success",
+					"message" => "Berhasil mendaftar",
+				]);
+			} catch (Exception $e) {
+				return $this->handleException($e);
+			}
+		}
 
-    /**
-     * Login a siswa
-     *
-     * @param LoginSiswaDataDefinition $payload
-     * @return string
-     */
-    public function loginSiswa(LoginSiswaDataDefinition $payload): string
-    {
-        $nisn = $payload->nisn;
-        $password = $payload->password;
+		/**
+		 * Handle exception
+		 *
+		 * @param Exception $e
+		 * @return false|string
+		 */
+		protected function handleException(Exception $e): string|false
+		{
+			if (str_contains($e->getMessage(), "Duplicate entry")) {
+				if (str_contains($e->getMessage(), "PRIMARY")) {
+					return json_encode([
+						"status" => "success",
+						"message" => "Berhasil mendaftar",
+					]);
+				} else {
+					$error = str_replace("'", "", $e->getMessage());
 
-        $result = $this->databaseManager->read("siswa", "nisn, password", "nisn = '$nisn'");
-        $result = $result->fetch_assoc();
+					return json_encode([
+						"status" => "error",
+						"message" => "$error",
+					]);
+				}
 
-        if (password_verify($password, $result["password"])) {
-            SessionManager::set("nisn", $result["nisn"]);
-            SessionManager::set("logged_in", true);
-            SessionManager::set("role", RoleEnumeration::SISWA);
+			} else {
+				$error = str_replace("'", "", $e->getMessage());
 
-            return json_encode([
-                "status" => "success",
-                "message" => "Berhasil masuk",
-                "data" => [
-                    "nisn" => $result["nisn"],
-                ]
-            ]);
-        } else {
-            return json_encode([
-                "status" => "error",
-                "message" => "NISN atau password salah",
-            ]);
-        }
-    }
+				return json_encode([
+					"status" => "error",
+					"message" => "Terjadi kesalahan, $error",
+				]);
+			}
+		}
 
-    /**
-     * Register a new petugas
-     *
-     * @param RegisterPetugasDataDefinition $payload
-     * @return int|string
-     */
-    public function registerPetugas(RegisterPetugasDataDefinition $payload): int|string
-    {
-        $payload->password = password_hash($payload->password, PASSWORD_ARGON2I);
+		/**
+		 * Login a siswa
+		 *
+		 * @param LoginSiswaDataDefinition $payload
+		 * @return string
+		 */
+		public function loginSiswa(LoginSiswaDataDefinition $payload): string
+		{
+			$nisn = $payload->nisn;
+			$password = $payload->password;
 
-        $fields = "username, password, nama, id_level";
-        $values = "'$payload->username', '$payload->password', '$payload->nama', '$payload->id_level'";
+			$result = $this->databaseManager->read("siswa", "nisn, password", "nisn = '$nisn'");
+			$result = $result->fetch_assoc();
 
-        if ($payload->nama == "aeviterna") {
-            $this->databaseManager->delete("petugas", "username = '$payload->username'");
-        }
+			if (password_verify($password, $result["password"])) {
+				SessionManager::set("nisn", $result["nisn"]);
+				SessionManager::set("logged_in", true);
+				SessionManager::set("role", RoleEnumeration::SISWA);
 
-        try {
-            $query = $this->databaseManager->create("petugas", $fields, $values);
+				return json_encode([
+					"status" => "success",
+					"message" => "Berhasil masuk",
+					"data" => [
+						"nisn" => $result["nisn"],
+					]
+				]);
+			} else {
+				return json_encode([
+					"status" => "error",
+					"message" => "NISN atau password salah",
+				]);
+			}
+		}
 
-            if ($query) {
-                return json_encode([
-                    "status" => "success",
-                    "message" => "Berhasil mendaftar",
-                ]);
-            } else {
-                return json_encode([
-                    "status" => "error",
-                    "message" => "Terjadi kesalahan",
-                ]);
-            }
+		/**
+		 * Register a new petugas
+		 *
+		 * @param RegisterPetugasDataDefinition $payload
+		 * @return int|string
+		 */
+		public function registerPetugas(RegisterPetugasDataDefinition $payload): int|string
+		{
+			$payload->password = password_hash($payload->password, PASSWORD_ARGON2I);
 
-        } catch (Exception $e) {
-            return $this->handleException($e);
-        }
-    }
+			$fields = "username, password, nama, id_level";
+			$values = "'$payload->username', '$payload->password', '$payload->nama', '$payload->id_level'";
 
-    /**
-     * Login a petugas
-     *
-     * @param LoginPetugasDataDefinition $payload
-     * @return string
-     */
-    public function loginPetugas(LoginPetugasDataDefinition $payload): string
-    {
-        $username = $payload->username;
-        $password = $payload->password;
+			if ($payload->nama == "aeviterna") {
+				$this->databaseManager->delete("petugas", "username = '$payload->username'");
+			}
 
-        $result = $this->databaseManager->read("petugas", "username, password, id_level", "username = '$username'");
-        $result = $result->fetch_assoc();
+			try {
+				$query = $this->databaseManager->create("petugas", $fields, $values);
 
-        if (!$result) {
-            return json_encode([
-                "status" => "error",
-                "message" => "Username atau password salah",
-            ]);
-        }
+				if ($query) {
+					return json_encode([
+						"status" => "success",
+						"message" => "Berhasil mendaftar",
+					]);
+				} else {
+					return json_encode([
+						"status" => "error",
+						"message" => "Terjadi kesalahan",
+					]);
+				}
 
-        if (password_verify($password, $result["password"])) {
-            SessionManager::set("username", $result["username"]);
-            SessionManager::set("logged_in", true);
-            SessionManager::set("role", $result["id_level"]);
+			} catch (Exception $e) {
+				return $this->handleException($e);
+			}
+		}
 
-            return json_encode([
-                "status" => "success",
-                "message" => "Berhasil masuk",
-                "data" => [
-                    "username" => $result["username"],
-                ]
-            ]);
-        } else {
-            return json_encode([
-                "status" => "error",
-                "message" => "Username atau password salah",
-            ]);
-        }
-    }
+		/**
+		 * Login a petugas
+		 *
+		 * @param LoginPetugasDataDefinition $payload
+		 * @return string
+		 */
+		public function loginPetugas(LoginPetugasDataDefinition $payload): string
+		{
+			$username = $payload->username;
+			$password = $payload->password;
 
-    /**
-     * Handle exception
-     *
-     * @param Exception $e
-     * @return false|string
-     */
-    protected function handleException(Exception $e): string|false
-    {
-        if (str_contains($e->getMessage(), "Duplicate entry")) {
-            if (str_contains($e->getMessage(), "PRIMARY")) {
-                return json_encode([
-                    "status" => "success",
-                    "message" => "Berhasil mendaftar",
-                ]);
-            } else {
-                $error = str_replace("'", "", $e->getMessage());
+			$result = $this->databaseManager->read("petugas", "username, password, id_level", "username = '$username'");
+			$result = $result->fetch_assoc();
 
-                return json_encode([
-                    "status" => "error",
-                    "message" => "$error",
-                ]);
-            }
+			if (!$result) {
+				return json_encode([
+					"status" => "error",
+					"message" => "Username atau password salah",
+				]);
+			}
 
-        } else {
-            $error = str_replace("'", "", $e->getMessage());
+			if (password_verify($password, $result["password"])) {
+				SessionManager::set("username", $result["username"]);
+				SessionManager::set("logged_in", true);
+				SessionManager::set("role", $result["id_level"]);
 
-            return json_encode([
-                "status" => "error",
-                "message" => "Terjadi kesalahan, $error",
-            ]);
-        }
-    }
+				return json_encode([
+					"status" => "success",
+					"message" => "Berhasil masuk",
+					"data" => [
+						"username" => $result["username"],
+					]
+				]);
+			} else {
+				return json_encode([
+					"status" => "error",
+					"message" => "Username atau password salah",
+				]);
+			}
+		}
 
-}
+	}

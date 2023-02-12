@@ -1,18 +1,18 @@
 <?php
-require_once(dirname(__FILE__, 4) . "/src/managers/_authenticationManager.php");
-require_once(dirname(__FILE__, 4) . "/src/definitions/siswa/_loginSiswaDataDefinition.php");
-SessionManager::startSession();
+	require_once(dirname(__FILE__, 4) . "/src/managers/_authenticationManager.php");
+	require_once(dirname(__FILE__, 4) . "/src/definitions/siswa/_loginSiswaDataDefinition.php");
+	SessionManager::startSession();
 ?>
 
 <!doctype html>
 <html lang="en">
 <head>
-    <?php
-    $headTitle = "Login Siswa";
+	<?php
+		$headTitle = "Login Siswa";
 
-    require_once(dirname(__FILE__, 4) . "/src/components/_head.php");
-    require_once(dirname(__FILE__, 4) . "/src/components/_modal.php");
-    ?>
+		require_once(dirname(__FILE__, 4) . "/src/components/_head.php");
+		require_once(dirname(__FILE__, 4) . "/src/components/_modal.php");
+	?>
 </head>
 <body class="hold-transition login-page" id="body-theme">
 <div class="login-box" id="login-container">
@@ -64,24 +64,24 @@ SessionManager::startSession();
 
 <?php
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nisn = $_POST['nisn'] ?? null;
-    $password = $_POST['password'] ?? null;
+	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+		$nisn = $_POST['nisn'] ?? null;
+		$password = $_POST['password'] ?? null;
 
-    $payload = new LoginSiswaDataDefinition($nisn, $password);
-    $authenticationManager = new AuthenticationManager();
-    $result = $authenticationManager->loginSiswa($payload);
+		$payload = new LoginSiswaDataDefinition($nisn, $password);
+		$authenticationManager = new AuthenticationManager();
+		$result = $authenticationManager->loginSiswa($payload);
 
-    $response = json_decode($result, true);
-    $status = $response['status'];
-    $message = $response['message'];
+		$response = json_decode($result, true);
+		$status = $response['status'];
+		$message = $response['message'];
 
-    if ($status === "success") {
-        echo "<script>successModal('$message', null, 'login-container', '/pwpb/pembayaran_spp/index.php')</script>";
-    } else {
-        echo "<script>errorModal('$message', null, 'login-container')</script>";
-    }
-}
+		if ($status === "success") {
+			echo "<script>successModal('$message', null, 'login-container', '/pwpb/pembayaran_spp/index.php')</script>";
+		} else {
+			echo "<script>errorModal('$message', null, 'login-container')</script>";
+		}
+	}
 
 ?>
 

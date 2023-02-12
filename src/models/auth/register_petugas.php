@@ -1,18 +1,18 @@
 <?php
-require_once(dirname(__FILE__, 4) . "/src/managers/_authenticationManager.php");
-require_once(dirname(__FILE__, 4) . "/src/utilities/_enumeration.php");
-require_once(dirname(__FILE__, 4) . "/src/definitions/petugas/_registerPetugasDataDefinition.php");
+	require_once(dirname(__FILE__, 4) . "/src/managers/_authenticationManager.php");
+	require_once(dirname(__FILE__, 4) . "/src/utilities/_enumeration.php");
+	require_once(dirname(__FILE__, 4) . "/src/definitions/petugas/_registerPetugasDataDefinition.php");
 ?>
 
 <!doctype html>
 <html lang="en">
 <head>
-    <?php
-    $headTitle = "Register Petugas";
+	<?php
+		$headTitle = "Register Petugas";
 
-    require_once(dirname(__FILE__, 4) . "/src/components/_head.php");
-    require_once(dirname(__FILE__, 4) . "/src/components/_modal.php");
-    ?>
+		require_once(dirname(__FILE__, 4) . "/src/components/_head.php");
+		require_once(dirname(__FILE__, 4) . "/src/components/_modal.php");
+	?>
 </head>
 <body class="hold-transition login-page" id="body-theme">
 <div class="login-box" id="login-container">
@@ -73,27 +73,27 @@ require_once(dirname(__FILE__, 4) . "/src/definitions/petugas/_registerPetugasDa
 
 <?php
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nama = $_POST['nama'] ?? null;
-    $username = $_POST['username'] ?? null;
-    $password = $_POST['password'] ?? null;
-    $id_level = RoleEnumeration::PETUGAS;
+	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+		$nama = $_POST['nama'] ?? null;
+		$username = $_POST['username'] ?? null;
+		$password = $_POST['password'] ?? null;
+		$id_level = RoleEnumeration::PETUGAS;
 
-    $payload = new RegisterPetugasDataDefinition($nama, $username, $password, $id_level);
-    $authenticationManager = new AuthenticationManager();
-    $result = $authenticationManager->registerPetugas($payload);
+		$payload = new RegisterPetugasDataDefinition($nama, $username, $password, $id_level);
+		$authenticationManager = new AuthenticationManager();
+		$result = $authenticationManager->registerPetugas($payload);
 
-    $response = json_decode($result, true);
-    $status = $response['status'];
-    $message = $response['message'];
+		$response = json_decode($result, true);
+		$status = $response['status'];
+		$message = $response['message'];
 
-    if ($status === "success") {
-        echo "<script>successModal('$message', 'login_petugas.php', 'login-container')</script>";
-    } else {
-        echo "<script>errorModal('$message', null, 'login-container')</script>";
+		if ($status === "success") {
+			echo "<script>successModal('$message', 'login_petugas.php', 'login-container')</script>";
+		} else {
+			echo "<script>errorModal('$message', null, 'login-container')</script>";
 
-    }
-}
+		}
+	}
 
 ?>
 
