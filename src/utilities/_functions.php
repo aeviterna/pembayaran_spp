@@ -6,6 +6,7 @@
 
 	$routes = [
 		'home' => '/' . Configuration::BASE_URL . '/index.php',
+		'status' => '/' . Configuration::BASE_URL . '/src/models/status.php',
 		'auth' => '/' . Configuration::BASE_URL . '/src/models/auth/index.php',
 		'register_siswa' => '/' . Configuration::BASE_URL . '/src/models/auth/register_siswa.php',
 		'register_petugas' => '/' . Configuration::BASE_URL . '/src/models/auth/register_petugas.php',
@@ -47,6 +48,13 @@
 	{
 		if (!SessionManager::check()) {
 			locationRedirect(generateUrl('auth'));
+		}
+	}
+
+	function checkStatus(): void
+	{
+		if (!SessionManager::checkStatus()) {
+			locationRedirect(generateUrl('status'));
 		}
 	}
 

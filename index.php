@@ -6,6 +6,7 @@
 
 	SessionManager::startSession();
 	checkIfLoggedIn();
+	checkStatus();
 
 ?>
 
@@ -19,6 +20,7 @@
 		require_once(dirname(__FILE__) . "/src/components/_modal.php");
 	?>
 </head>
+
 <body class="hold-transition layout-navbar-fixed layout-fixed light-mode" id="body-theme">
 <div class="wrapper">
 	<?php

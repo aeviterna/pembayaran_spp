@@ -8,6 +8,7 @@
 
 	SessionManager::startSession();
 	checkIfLoggedIn();
+	checkStatus();
 
 	$roleManager = new RoleManager(SessionManager::get("role"));
 
@@ -101,6 +102,7 @@
                                                 <th class="text-center align-middle export">Nama</th>
                                                 <th class="text-center align-middle export">Username</th>
                                                 <th class="text-center align-middle export">Level</th>
+                                                <th class="text-center align-middle export">Status</th>
                                                 <th class="text-center align-middle">Aksi</th>
                                             </tr>
                                             </thead>
@@ -130,63 +132,72 @@
 												$username = $row['username'];
 												$level = $row['id_level'];
 												$level = $roleManager->getRoleName($level);
+												$status = $row['status'];
 											?>
                                             <tr>
                                                 <td class='text-center align-middle'><?php echo $i; ?></td>
                                                 <td class='text-center align-middle'><?php echo $nama; ?></td>
                                                 <td class='text-center align-middle'><?php echo $username; ?></td>
                                                 <td class='text-center align-middle'><?php echo $level; ?></td>
+                                                <td class='text-center align-middle'>
+													<?php
+														if ($status == 1) {
+															echo '<span class="badge badge-success">Aktif</span>';
+														} else {
+															echo '<span class="badge badge-danger">Tidak Aktif</span>';
+														}
+													?>
+													<?php
+														if ($roleManager->checkMinimumRole($row['id_level'] + 1)) {
+													?>
+                                                <td class='text-center align-middle'>
+                                                    <div class="btn-group">
+                                                        <a class="btn btn-app bg-warning m-0"
+                                                           href="<?php echo generateUrl('petugas_ubah', ['id' => $id]); ?>"
+                                                        >
+                                                            <i class="fas fa-edit"></i> Ubah
+                                                        </a>
+
+                                                        <a class="btn btn-app bg-danger m-0"
+                                                           href="<?php echo generateUrl('petugas_ubah_password', ['id' => $id]); ?>"
+                                                        >
+                                                            <i class="fas fa-lock"></i> Ubah Password
+                                                        </a>
+
+                                                        <a class="btn btn-app bg-danger m-0"
+                                                           onclick="return confirmModal('location', this, 'wrapper');"
+                                                           href="<?php echo generateUrl('petugas_hapus', ['id' => $id]); ?>">
+                                                            <i class="fas fa-trash"></i> Hapus
+                                                        </a>
+                                                    </div>
+                                                </td>
 												<?php
-													if ($roleManager->checkMinimumRole($row['id_level'] + 1)) {
-														?>
-                                                        <td class='text-center align-middle'>
-                                                            <div class="btn-group">
-                                                                <a class="btn btn-app bg-warning m-0"
-                                                                   href="<?php echo generateUrl('petugas_ubah', ['id' => $id]); ?>"
-                                                                >
-                                                                    <i class="fas fa-edit"></i> Ubah
-                                                                </a>
-
-                                                                <a class="btn btn-app bg-danger m-0"
-                                                                   href="<?php echo generateUrl('petugas_ubah_password', ['id' => $id]); ?>"
-                                                                >
-                                                                    <i class="fas fa-lock"></i> Ubah Password
-                                                                </a>
-
-                                                                <a class="btn btn-app bg-danger m-0"
-                                                                   onclick="return confirmModal('location', this, 'wrapper');"
-                                                                   href="<?php echo generateUrl('petugas_hapus', ['id' => $id]); ?>">
-                                                                    <i class="fas fa-trash"></i> Hapus
-                                                                </a>
-                                                            </div>
-                                                        </td>
-														<?php
 													} else {
-														?>
-                                                        <td class='text-center align-middle'>
-                                                            <div class="btn-group">
-                                                                <a class="btn btn-app bg-gray m-0"
-                                                                   style=" pointer-events: none;"
-                                                                   href="<?php echo generateUrl('petugas_ubah', ['id' => 112]); ?>">
-                                                                    <i class="fas fa-edit"></i> Ubah
-                                                                </a>
+													?>
+                                                    <td class='text-center align-middle'>
+                                                        <div class="btn-group">
+                                                            <a class="btn btn-app bg-gray m-0"
+                                                               style=" pointer-events: none;"
+                                                               href="<?php echo generateUrl('petugas_ubah', ['id' => 112]); ?>">
+                                                                <i class="fas fa-edit"></i> Ubah
+                                                            </a>
 
-                                                                <a class="btn btn-app bg-gray m-0"
-                                                                   style=" pointer-events: none;"
-                                                                   href="<?php echo generateUrl('petugas_ubah_password', ['id' => 112]); ?>"
-                                                                >
-                                                                    <i class="fas fa-lock"></i> Ubah Password
-                                                                </a>
+                                                            <a class="btn btn-app bg-gray m-0"
+                                                               style=" pointer-events: none;"
+                                                               href="<?php echo generateUrl('petugas_ubah_password', ['id' => 112]); ?>"
+                                                            >
+                                                                <i class="fas fa-lock"></i> Ubah Password
+                                                            </a>
 
-                                                                <a class="btn btn-app bg-gray m-0"
-                                                                   style=" pointer-events: none;"
-                                                                   href="<?php echo generateUrl('petugas_hapus', ['id' => 112]); ?>">
-                                                                    <i class="fas fa-trash"></i> Hapus
-                                                                </a>
-                                                            </div>
-                                                        </td>
-														<?php
-													}
+                                                            <a class="btn btn-app bg-gray m-0"
+                                                               style=" pointer-events: none;"
+                                                               href="<?php echo generateUrl('petugas_hapus', ['id' => 112]); ?>">
+                                                                <i class="fas fa-trash"></i> Hapus
+                                                            </a>
+                                                        </div>
+                                                    </td>
+													<?php
+												}
 												?>
 												<?php
 													$i++;

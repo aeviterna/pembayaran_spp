@@ -8,6 +8,7 @@
 
 	SessionManager::startSession();
 	checkIfLoggedIn();
+	checkStatus();
 
 	$roleManager = new RoleManager(SessionManager::get("role"));
 

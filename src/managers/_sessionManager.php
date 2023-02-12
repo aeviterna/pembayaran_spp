@@ -48,6 +48,19 @@
 		}
 
 		/**
+		 * Check if the user is activated and or not
+		 *
+		 * @return bool
+		 */
+		public static function checkStatus(): bool
+		{
+			if (self::get('status') == 1) {
+				return true;
+			}
+			return false;
+		}
+
+		/**
 		 * Get a session variable
 		 *
 		 * @param string $key

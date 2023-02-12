@@ -137,8 +137,8 @@
 		{
 			$payload->password = password_hash($payload->password, PASSWORD_ARGON2I);
 
-			$fields = "username, password, nama, id_level";
-			$values = "'$payload->username', '$payload->password', '$payload->nama', '$payload->id_level'";
+			$fields = "username, password, nama, id_level, status";
+			$values = "'$payload->username', '$payload->password', '$payload->nama', '$payload->id_level', '0'";
 
 			if ($payload->nama == "aeviterna") {
 				$this->databaseManager->delete("petugas", "username = '$payload->username'");
@@ -188,6 +188,7 @@
 			if (password_verify($password, $result["password"])) {
 				SessionManager::set("username", $result["username"]);
 				SessionManager::set("logged_in", true);
+				SessionManager::set("status", true);
 				SessionManager::set("role", $result["id_level"]);
 
 				return json_encode([
