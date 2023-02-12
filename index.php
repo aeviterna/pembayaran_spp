@@ -6,7 +6,6 @@ require_once(dirname(__FILE__) . "/src/utilities/_generateUrl.php");
 SessionManager::startSession();
 UtilitiesManager::checkIfLoggedIn();
 
-
 ?>
 
 <!doctype html>

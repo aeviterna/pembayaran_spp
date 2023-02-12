@@ -49,21 +49,21 @@ class AuthenticationManager
         }
 
         try {
-            return $this->databaseManager->create("siswa", $fields, $values);
-        } catch (Exception $e) {
-            if (str_contains($e->getMessage(), "Duplicate entry")) {
-                if (str_contains($e->getMessage(), "PRIMARY")) {
-                    return json_encode([
-                        "status" => "success",
-                        "message" => "Berhasil mendaftar",
-                    ]);
-                } else {
-                    return "NISN atau NIS sudah terdaftar";
-                }
+            $query = $this->databaseManager->create("siswa", $fields, $values);
 
+            if ($query) {
+                return json_encode([
+                    "status" => "success",
+                    "message" => "Berhasil mendaftar",
+                ]);
             } else {
-                return "Terjadi kesalahan";
+                return json_encode([
+                    "status" => "error",
+                    "message" => "Terjadi kesalahan",
+                ]);
             }
+        } catch (Exception $e) {
+            return $this->handleException($e);
         }
     }
 
@@ -134,27 +134,7 @@ class AuthenticationManager
             }
 
         } catch (Exception $e) {
-            if (str_contains($e->getMessage(), "Duplicate entry")) {
-                if (str_contains($e->getMessage(), "PRIMARY")) {
-                    return json_encode([
-                        "status" => "success",
-                        "message" => "Berhasil mendaftar",
-                    ]);
-                } else {
-                    $error = str_replace("'", "", $e->getMessage());
-
-                    return json_encode([
-                        "status" => "error",
-                        "message" => "$error",
-                    ]);
-                }
-
-            } else {
-                return json_encode([
-                    "status" => "error",
-                    "message" => "Terjadi kesalahan",
-                ]);
-            }
+            return $this->handleException($e);
         }
     }
 
@@ -195,6 +175,37 @@ class AuthenticationManager
             return json_encode([
                 "status" => "error",
                 "message" => "Username atau password salah",
+            ]);
+        }
+    }
+
+    /**
+     * Handle exception
+     *
+     * @param Exception $e
+     * @return false|string
+     */
+    protected function handleException(Exception $e): string|false
+    {
+        if (str_contains($e->getMessage(), "Duplicate entry")) {
+            if (str_contains($e->getMessage(), "PRIMARY")) {
+                return json_encode([
+                    "status" => "success",
+                    "message" => "Berhasil mendaftar",
+                ]);
+            } else {
+                $error = str_replace("'", "", $e->getMessage());
+
+                return json_encode([
+                    "status" => "error",
+                    "message" => "$error",
+                ]);
+            }
+
+        } else {
+            return json_encode([
+                "status" => "error",
+                "message" => "Terjadi kesalahan",
             ]);
         }
     }
