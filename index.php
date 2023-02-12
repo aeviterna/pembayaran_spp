@@ -3,6 +3,7 @@
 require_once(dirname(__FILE__) . "/src/managers/_utilititesManager.php");
 require_once(dirname(__FILE__) . "/src/managers/_sessionManager.php");
 require_once(dirname(__FILE__) . "/src/utilities/_generateUrl.php");
+require_once(dirname(__FILE__) . "/src/utilities/_enumeration.php");
 SessionManager::startSession();
 UtilitiesManager::checkIfLoggedIn();
 
@@ -19,20 +20,18 @@ UtilitiesManager::checkIfLoggedIn();
     ?>
 </head>
 <body class="hold-transition layout-navbar-fixed layout-fixed light-mode" id="body-theme">
-<div class="container">
-    <h1 class="h1">Index</h1>
-    <p class="p mt-2">
-        <?php
+<div class="wrapper">
+    <?php
+    $navigationActive = array(1, null);
 
-        echo "Logged in as ";
-        echo SessionManager::get("username") ? $username = SessionManager::get("username") : $username = SessionManager::get("nisn");
+    include_once(dirname(__FILE__) . "/src/components/_navigation.php");
 
-        ?>
-    </p>
-    <p class="p mt-4">
-        <a href="<?php echo generateUrl('logout'); ?>" class="btn btn-primary">Logout</a>
-    </p>
+    ?>
 </div>
+
+<?php
+require_once(dirname(__FILE__) . "/src/components/_script.php");
+?>
 </body>
 </html>
 
