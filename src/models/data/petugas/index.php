@@ -100,17 +100,17 @@ if (!$roleManager->checkMinimumRole(RoleEnumeration::ADMINISTRATOR)) {
                                                 <td class='text-center align-middle'>
                                                     <div class="btn-group">
                                                         <a class="btn btn-app bg-warning m-0"
-                                                           href="<?php echo generateUrl('petugas_ubah', ['id' => 112]); ?>">
+                                                           href="<?php echo generateUrl('petugas_ubah', ['id' => $id]); ?>">
                                                             <i class="fas fa-edit"></i> Ubah
                                                         </a>
 
                                                         <a class="btn btn-app bg-danger m-0"
-                                                           href="<?php echo generateUrl('petugas_ubah_password', ['id' => 112]); ?>">
+                                                           href="<?php echo generateUrl('petugas_ubah_password', ['id' => $id]); ?>">
                                                             <i class="fas fa-lock"></i> Ubah Password
                                                         </a>
 
                                                         <a class="btn btn-app bg-danger m-0"
-                                                           href="<?php echo generateUrl('petugas_hapus', ['id' => 112]); ?>">
+                                                           href="<?php echo generateUrl('petugas_hapus', ['id' => $id]); ?>">
                                                             <i class="fas fa-trash"></i> Hapus
                                                         </a>
                                                     </div>
