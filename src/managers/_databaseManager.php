@@ -55,13 +55,16 @@ class DatabaseManager
      * @param string $table
      * @param string $columns
      * @param string|null $where
+     * @param string|null $other
      * @return bool|mysqli_result|string
      */
-    public function read(string $table, string $columns = '*', string $where = null): bool|mysqli_result|string
+    public function read(string $table, string $columns = '*', string $where = null, string $other = null): bool|mysqli_result|string
     {
         $query = sprintf("SELECT %s FROM %s", $columns, $table);
         if ($where != null)
             $query .= " WHERE $where";
+        if ($other != null)
+            $query .= " $other";
         $stmt = $this->connection->prepare($query);
         $stmt->execute();
 

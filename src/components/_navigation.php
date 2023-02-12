@@ -88,13 +88,13 @@ $roleManager = new RoleManager(SessionManager::get("role"));
                                 "id" => 1,
                                 "title" => "Petugas",
                                 "icon" => "fas fa-user-tie",
-                                "link" => "src/models/pengguna/petugas",
+                                "link" => generateUrl('petugas'),
                             ],
                             2 => [
                                 "id" => 2,
                                 "title" => "Siswa",
                                 "icon" => "fas fa-user",
-                                "link" => "src/models/pengguna/siswa",
+                                "link" => generateUrl('siswa'),
                             ]
                         ]
                     ];
@@ -136,7 +136,7 @@ $roleManager = new RoleManager(SessionManager::get("role"));
                             "id" => 1,
                             "title" => "Logout",
                             "icon" => "fas fa-sign-out",
-                            "link" => "src/models/auth/logout.php",
+                            "link" => generateUrl('logout'),
                         ]
                     ]
                 ];

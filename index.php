@@ -1,11 +1,11 @@
 <?php
 
-require_once(dirname(__FILE__) . "/src/managers/_utilititesManager.php");
 require_once(dirname(__FILE__) . "/src/managers/_sessionManager.php");
-require_once(dirname(__FILE__) . "/src/utilities/_generateUrl.php");
+require_once(dirname(__FILE__) . "/src/utilities/_functions.php");
 require_once(dirname(__FILE__) . "/src/utilities/_enumeration.php");
+
 SessionManager::startSession();
-UtilitiesManager::checkIfLoggedIn();
+checkIfLoggedIn();
 
 ?>
 

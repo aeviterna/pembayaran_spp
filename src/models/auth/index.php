@@ -1,6 +1,3 @@
-<?php
-require_once(dirname(__FILE__, 3) . "/managers/_utilititesManager.php");
-?>
 <!doctype html>
 <html lang="en">
 <head>
