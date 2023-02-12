@@ -6,6 +6,8 @@
 ![Apache](https://img.shields.io/badge/apache-%23D42029.svg?style=for-the-badge&logo=apache&logoColor=white)
 ![MariaDB](https://img.shields.io/badge/MariaDB-003545?style=for-the-badge&logo=mariadb&logoColor=white)
 
+---
+
 Website ini dibuat untuk Uji Kompetensi Keahlian Rekayasa Perangkat Lunak (RPL) SMK Negeri 2 Balikpapan.
 Beberapa kode yang digunakan dalam pembuatan website ini terinspirasi dari beberapa sumber,
 diantaranya: [NotHydra](https://github.com/NotHydra/pelaporan-pengaduan-masyarakat)
