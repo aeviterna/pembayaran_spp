@@ -5,6 +5,8 @@
 	require_once(dirname(__FILE__, 4) . "/managers/_roleManager.php");
 	require_once(dirname(__FILE__, 4) . "/utilities/_functions.php");
 	require_once(dirname(__FILE__, 4) . "/utilities/_enumeration.php");
+	require_once(dirname(__FILE__, 4) . "/definitions/petugas/_updatePetugasDataDefinition.php");
+
 
 	SessionManager::startSession();
 	checkIfLoggedIn();
@@ -34,8 +36,8 @@
 		$headTitle = "Petugas";
 
 		require_once(dirname(__FILE__, 4) . "/components/_head.php");
-		require_once(dirname(__FILE__, 4) . "/components/_dataTableHead.php");
 		require_once(dirname(__FILE__, 4) . "/components/_modal.php");
+		require_once(dirname(__FILE__, 4) . "/components/_dataTableHead.php");
 	?>
 </head>
 <body class="hold-transition layout-navbar-fixed layout-fixed light-mode" id="body-theme">
@@ -69,38 +71,31 @@
 								require_once(dirname(__FILE__, 4) . "/components/_contentHead.php");
 							?>
 
-                            <div class="card-body">
-                                <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" class="row mb-2"
-                                      onsubmit="return confirmModal('form', this);">
+                            <div class="card-body" id="card-container">
+                                <form action="<?php echo $_SERVER['PHP_SELF'] . '?' . $_SERVER['QUERY_STRING']; ?>"
+                                      method="post" class="row mb-2"
+                                      onsubmit="return confirmModal('form', this, 'card-container');">
                                     <div class="col-sm">
 										<?php
 											$result = $databaseManager->read("petugas", "*", "id_petugas = '$id'", "AND dihapus = '0'");
 											$result = $result->fetch_assoc();
 										?>
 
+                                        <label for="username">Username</label>
                                         <div class="input-group mb-3">
+
                                             <div class="input-group-append">
                                                 <div class="input-group-text">
                                                     <span class="fas fa-user"></span>
-
                                                 </div>
                                             </div>
+
                                             <input type="text" class="form-control" placeholder="Username"
                                                    name="username"
-                                                   value="<?php echo $_POST["nama"] ?? $result["nama"] ?>"
-                                                   required>
+                                                   value="<?php echo $_POST['username'] ?? $result['username'] ?>">
                                         </div>
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-append">
-                                                <div class="input-group-text">
-                                                    <span class="fas fa-lock"></span>
-                                                </div>
-                                            </div>
-                                            <input type="password" class="form-control" placeholder="Password"
-                                                   name="password"
-                                                   value="<?php echo $_POST['password'] ?? $result['password'] ?>"
-                                                   disabled>
-                                        </div>
+
+                                        <label for="nama">Nama</label>
                                         <div class="input-group mb-3">
                                             <div class="input-group-append">
                                                 <div class="input-group-text">
@@ -111,6 +106,8 @@
                                                    name="nama"
                                                    value="<?php echo $_POST['nama'] ?? $result['nama'] ?>" required>
                                         </div>
+
+                                        <label for="level">Level/Role</label>
                                         <div class="input-group mb-3">
                                             <div class="input-group-append">
                                                 <div class="input-group-text">
@@ -120,18 +117,51 @@
 											<?php
 
 												$select = '<select class="form-control select2bs4" id="level" name="level">';
-												$currentRole = SessionManager::get("role");
+												$currentUserLoggedInRole = SessionManager::get("role");
+												$currentRole = $result['id_level'];
 												$roles = $roleManager->roles;
 
 												foreach ($roles as $roleName => $roleValue) {
-													if ($roleValue <= $currentRole) {
-														if ($roleValue == $currentRole) {
-															$select .= '<option value="' . $roleValue . '" selected disabled>' . $roleName . '</option>';
-														} else {
-															$select .= '<option value="' . $roleValue . '" selected>' . $roleName . '</option>';
-														}
+													if ($roleValue > $currentUserLoggedInRole) {
+														continue;
+													}
+
+													if ($roleValue == $currentUserLoggedInRole) {
+														continue;
+													}
+
+													if ($roleValue == $currentRole) {
+														$select .= '<option value="' . $roleValue . '" selected>' . $roleName . '</option>';
 													} else {
-														$select .= '<option value="' . $roleValue . '" disabled>' . $roleName . '</option>';
+														$select .= '<option value="' . $roleValue . '">' . $roleName . '</option>';
+													}
+												}
+
+												$select .= '</select>';
+												echo $select;
+
+
+											?>
+                                        </div>
+
+                                        <label for="status">Status</label>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-append">
+                                                <div class="input-group-text">
+                                                    <span class="fas fa-check"></span>
+                                                </div>
+                                            </div>
+											<?php
+
+												$select = '<select class="form-control select2bs4" id="status" name="status">';
+												$currentStatus = $result['status'];
+												$statues = StatusEnumeration::getStatusArray();
+
+												foreach ($statues as $statusName => $statusValue) {
+													if ($statusValue == $currentStatus) {
+														$select .= '<option value="' . $statusValue . '" selected>' . $statusName . '</option>';
+													} else {
+														$select .= '<option value="' . $statusValue . '">' . $statusName . '</option>';
 													}
 												}
 
@@ -140,9 +170,21 @@
 
 											?>
                                         </div>
-                                    </div>
-                                </form>
 
+                                        <div class="row">
+                                            <div class="col">
+                                                <button type="submit" class="btn btn-primary btn-block">Ubah
+                                                </button>
+                                            </div>
+                                            <div class="col-4">
+                                                <a href="<?php echo generateUrl('petugas'); ?>"
+                                                   class="btn btn-warning btn-block"
+                                                >Kembali
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -156,6 +198,30 @@
 	require_once(dirname(__FILE__, 4) . "/components/_script.php");
 	require_once(dirname(__FILE__, 4) . "/components/_dataTableScript.php");
 ?>
+
+
+<?php
+	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+		$payload = new UpdatePetugasDataDefinition($_POST['nama'], $_POST['username'], $_POST['level'], $_POST['status']);
+
+		try {
+			$set = "nama = '$payload->nama', username = '$payload->username', id_level = '$payload->level', status = '$payload->status'";
+			$result = $databaseManager->update("petugas", $set, "id_petugas = '$id'");
+
+			if ($result) {
+				echo "<script>successModal('Sukses', 'index.php', 'card-container')</script>";
+			} else {
+				echo "<script>errorModal('Gagal', null, 'card-container')</script>";
+			}
+
+		} catch (Exception $e) {
+			$error = str_replace("'", "", $e->getMessage());
+			echo "<script>errorModal('$error', null, 'card-container')</script>";
+		}
+
+	}
+?>
+
 </body>
 </html>
 
