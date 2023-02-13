@@ -213,10 +213,7 @@
                                 <a class="btn btn-primary btn-block mt-1"
                                    href="<?php echo generateUrl('petugas_tambah') ?>"><i
                                             class="fa fa-plus"></i>
-                                    Buat</a><a class="btn btn-warning btn-block mt-1"
-                                               href="<?php echo generateUrl('petugas_pulih') ?>"><i
-                                            class="fa fa-wrench"></i>
-                                    Pulih</a>
+                                    Buat</a>
                             </div>
                         </div>
                     </div>

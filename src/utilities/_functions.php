@@ -18,6 +18,8 @@
 		'petugas_ubah' => '/' . Configuration::BASE_URL . '/src/models/data/petugas/petugas_ubah.php?id={id}',
 		'petugas_hapus' => '/' . Configuration::BASE_URL . '/src/models/data/petugas/petugas_hapus.php?id={id}',
 		'petugas_ubah_password' => '/' . Configuration::BASE_URL . '/src/models/data/petugas/petugas_ubah_password.php?id={id}',
+		'petugas_pulih' => '/' . Configuration::BASE_URL . '/src/models/data/petugas/pulih/index.php',
+		'petugas_pulih_item' => '/' . Configuration::BASE_URL . '/src/models/data/petugas/pulih/pulih_item.php?id={id}',
 		'siswa' => '/' . Configuration::BASE_URL . '/src/models/data/siswa/index.php',
 		'siswa_tambah' => '/' . Configuration::BASE_URL . '/src/models/data/siswa/siswa_tambah.php',
 		'siswa_ubah' => '/' . Configuration::BASE_URL . '/src/models/data/siswa/siswa_ubah.php?id={id}',
