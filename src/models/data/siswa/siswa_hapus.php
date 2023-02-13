@@ -7,7 +7,6 @@ require_once(dirname(__FILE__, 4)."/utilities/_functions.php");
 require_once(dirname(__FILE__, 4)."/utilities/_enumeration.php");
 require_once(dirname(__FILE__, 4)."/definitions/siswa/_updateSiswaDataDefinition.php");
 
-
 SessionManager::startSession();
 checkIfLoggedIn();
 checkStatus();
@@ -21,7 +20,8 @@ if (!$roleManager->checkMinimumRole(RoleEnumeration::ADMINISTRATOR)) {
 $id = $_GET["id"];
 $databaseManager = new DatabaseManager();
 
-$result = $databaseManager->read("petugas", "id_level", "id_petugas = '$id'");
+$session_id = SessionManager::get("id");
+$result = $databaseManager->read("petugas", "id_level", "id_petugas = '$session_id'");
 $result = $result->fetch_assoc();
 
 if ($result["id_level"] > SessionManager::get("role")) {
@@ -33,7 +33,7 @@ if ($result["id_level"] > SessionManager::get("role")) {
 <html lang="en">
 <head>
     <?php
-    $headTitle = "Ubah Petugas";
+    $headTitle = "Hapus Siswa";
 
     require_once(dirname(__FILE__, 4)."/components/_head.php");
     require_once(dirname(__FILE__, 4)."/components/_modal.php");
@@ -57,13 +57,13 @@ if ($result["id_level"] > SessionManager::get("role")) {
                         <div class="card p-2">
                             <?php
                             $pageItemObject = array(
-                                    "title"      => "Ubah Petugas",
+                                    "title"      => "Hapus Siswa",
                                     "breadcrumb" => array(
                                             array(
-                                                    "title" => "Petugas",
+                                                    "title" => "Siswa",
                                                     "link"  => generateUrl('petugas')
                                             ), array(
-                                                    "title" => "Ubah Petugas",
+                                                    "title" => "Hapus Siswa",
                                                     "link"  => generateUrl('petugas_ubah', ['id' => $_GET['id']])
                                             ),
                                     )
@@ -78,12 +78,12 @@ if ($result["id_level"] > SessionManager::get("role")) {
                                       onsubmit="return confirmModal('form', this, 'card-container');">
                                     <div class="col-sm">
                                         <?php
-                                        $result = $databaseManager->read("petugas", "*", "id_petugas = '$id'",
+                                        $result = $databaseManager->read("siswa", "*", "nisn = '$id'",
                                                 "AND dihapus = '0'");
                                         $result = $result->fetch_assoc();
                                         ?>
 
-                                        <label for="username">Username</label>
+                                        <label for="nisn">NISN</label>
                                         <div class="input-group mb-3">
 
                                             <div class="input-group-append">
@@ -92,11 +92,27 @@ if ($result["id_level"] > SessionManager::get("role")) {
                                                 </div>
                                             </div>
 
-                                            <input type="text" class="form-control" placeholder="Username"
+                                            <input type="text" class="form-control" placeholder="NISN"
                                                    name="username"
                                                    disabled
                                                    value="<?php
-                                                   echo $_POST['username'] ?? $result['username'] ?>">
+                                                   echo $_POST['nisn'] ?? $result['nisn'] ?>">
+                                        </div>
+
+                                        <label for="nis">NIS</label>
+                                        <div class="input-group mb-3">
+
+                                            <div class="input-group-append">
+                                                <div class="input-group-text">
+                                                    <span class="fas fa-user"></span>
+                                                </div>
+                                            </div>
+
+                                            <input type="text" class="form-control" placeholder="nis"
+                                                   name="username"
+                                                   disabled
+                                                   value="<?php
+                                                   echo $_POST['nis'] ?? $result['nis'] ?>">
                                         </div>
 
                                         <label for="nama">Nama</label>
@@ -106,76 +122,69 @@ if ($result["id_level"] > SessionManager::get("role")) {
                                                     <span class="fas fa-tag"></span>
                                                 </div>
                                             </div>
-                                            <input type="text" class="form-control" placeholder="Nama Petugas"
+                                            <input type="text" class="form-control" placeholder="Nama Siswa"
                                                    name="nama"
                                                    disabled
                                                    value="<?php
                                                    echo $_POST['nama'] ?? $result['nama'] ?>" required>
                                         </div>
 
-                                        <label for="level">Level/Role</label>
+                                        <label for="alamat">Alamat</label>
                                         <div class="input-group mb-3">
                                             <div class="input-group-append">
                                                 <div class="input-group-text">
-                                                    <span class="fas fa-user-tag"></span>
+                                                    <span class="fas fa-tag"></span>
                                                 </div>
                                             </div>
-                                            <?php
-
-                                            $select = '<select class="form-control select2bs4" disabled id="level" name="level">';
-                                            $currentUserLoggedInRole = SessionManager::get("role");
-                                            $currentRole = $result['id_level'];
-                                            $roles = $roleManager->roles;
-
-                                            foreach ($roles as $roleName => $roleValue) {
-                                                if ($roleValue > $currentUserLoggedInRole) {
-                                                    continue;
-                                                }
-
-                                                if ($roleValue == $currentUserLoggedInRole) {
-                                                    continue;
-                                                }
-
-                                                if ($roleValue == $currentRole) {
-                                                    $select .= '<option value="'.$roleValue.'" selected>'.$roleName.'</option>';
-                                                } else {
-                                                    $select .= '<option value="'.$roleValue.'">'.$roleName.'</option>';
-                                                }
-                                            }
-
-                                            $select .= '</select>';
-                                            echo $select;
-
-
-                                            ?>
+                                            <input type="text" class="form-control" placeholder="Alamat"
+                                                   name="alamat"
+                                                   disabled
+                                                   value="<?php
+                                                   echo $_POST['alamat'] ?? $result['alamat'] ?>" required>
                                         </div>
 
-                                        <label for="status">Status</label>
+                                        <label for="alamat">No Telpon</label>
                                         <div class="input-group mb-3">
                                             <div class="input-group-append">
                                                 <div class="input-group-text">
-                                                    <span class="fas fa-check"></span>
+                                                    <span class="fas fa-tag"></span>
                                                 </div>
                                             </div>
-                                            <?php
-
-                                            $select = '<select class="form-control select2bs4" disabled id="status" name="status">';
-                                            $currentStatus = $result['status'];
-                                            $statues = StatusEnumeration::getStatusArray();
-
-                                            foreach ($statues as $statusName => $statusValue) {
-                                                if ($statusValue == $currentStatus) {
-                                                    $select .= '<option value="'.$statusValue.'" selected>'.$statusName.'</option>';
-                                                } else {
-                                                    $select .= '<option value="'.$statusValue.'">'.$statusName.'</option>';
-                                                }
-                                            }
-
-                                            $select .= '</select>';
-                                            echo $select;
-
-                                            ?>
+                                            <input type="text" class="form-control" placeholder="No Telpon"
+                                                   name="no_telp"
+                                                   disabled
+                                                   value="<?php
+                                                   echo $_POST['no_telp'] ?? $result['no_telp'] ?>" required>
                                         </div>
+
+                                        <label for="id_kelas">ID Kelas</label>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-append">
+                                                <div class="input-group-text">
+                                                    <span class="fas fa-tag"></span>
+                                                </div>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder="ID Kelas"
+                                                   name="id_kelas"
+                                                   disabled
+                                                   value="<?php
+                                                   echo $_POST['id_kelas'] ?? $result['id_kelas'] ?>" required>
+                                        </div>
+
+                                        <label for="id_spp">ID SPP</label>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-append">
+                                                <div class="input-group-text">
+                                                    <span class="fas fa-tag"></span>
+                                                </div>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder="ID SPP"
+                                                   name="id_spp"
+                                                   disabled
+                                                   value="<?php
+                                                   echo $_POST['id_spp'] ?? $result['id_spp'] ?>" required>
+                                        </div>
+
 
                                         <div class="row">
                                             <div class="col">
