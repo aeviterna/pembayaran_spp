@@ -2,6 +2,20 @@
 	require_once(dirname(__FILE__, 4) . "/src/managers/_authenticationManager.php");
 	require_once(dirname(__FILE__, 4) . "/src/utilities/_enumeration.php");
 	require_once(dirname(__FILE__, 4) . "/src/definitions/petugas/_registerPetugasDataDefinition.php");
+	require_once(dirname(__FILE__, 4) . "/src/managers/_sessionManager.php");
+	require_once(dirname(__FILE__, 4) . "/src/managers/_roleManager.php");
+	require_once(dirname(__FILE__, 4) . "/src/utilities/_functions.php");
+
+	SessionManager::startSession();
+	checkIfLoggedIn();
+	checkStatus();
+
+	$roleManager = new RoleManager(SessionManager::get("role"));
+
+	if (!$roleManager->checkMinimumRole(RoleEnumeration::ADMINISTRATOR)) {
+		locationRedirect(generateUrl('home'));
+	}
+
 ?>
 
 <!doctype html>
@@ -91,7 +105,6 @@
 			echo "<script>successModal('$message', 'login_petugas.php', 'login-container')</script>";
 		} else {
 			echo "<script>errorModal('$message', null, 'login-container')</script>";
-
 		}
 	}
 

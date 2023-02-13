@@ -31,6 +31,9 @@
 		'spp_tambah' => '/' . Configuration::BASE_URL . '/src/models/spp/spp_tambah.php',
 		'spp_ubah' => '/' . Configuration::BASE_URL . '/src/models/spp/spp_ubah.php?id={id}',
 		'spp_hapus' => '/' . Configuration::BASE_URL . '/src/models/spp/spp_hapus.php?id={id}',
+		'pembayaran' => '/' . Configuration::BASE_URL . 'src/models/pembayaran/index.php',
+		'pembayaran_history' => '/' . Configuration::BASE_URL . '/src/models/pembayaran/history_pembayaran.php',
+		'transaksi_pembayaran' => '/' . Configuration::BASE_URL . '/src/models/pembayaran/transaksi_pembayaran.php'
 	];
 
 	#[NoReturn] function locationRedirect($path): void

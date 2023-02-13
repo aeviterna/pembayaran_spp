@@ -33,7 +33,7 @@
 <html lang="en">
 <head>
 	<?php
-		$headTitle = "Petugas";
+		$headTitle = "Ubah Petugas";
 
 		require_once(dirname(__FILE__, 4) . "/components/_head.php");
 		require_once(dirname(__FILE__, 4) . "/components/_modal.php");
