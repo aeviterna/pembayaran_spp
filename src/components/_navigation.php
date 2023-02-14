@@ -1,6 +1,7 @@
 <?php
 
 require_once(dirname(__FILE__, 2)."/managers/_roleManager.php");
+require_once(dirname(__FILE__, 2)."/managers/_utilsManager.php");
 
 $roleManager = new RoleManager(SessionManager::get("role"));
 ?>
@@ -82,73 +83,50 @@ $roleManager = new RoleManager(SessionManager::get("role"));
                         ]
                 ];
 
-                //                if ($roleManager->checkMinimumRole(RoleEnumeration::ADMINISTRATOR)) {
-                //                    $pageArray[2] = [
-                //                            "id"    => 2,
-                //                            "title" => "Pengguna",
-                //                            "icon"  => "fas fa-users",
-                //                            "link"  => "user",
-                //                            "child" => [
-                //                                    1 => [
-                //                                            "id"    => 1,
-                //                                            "title" => "Petugas",
-                //                                            "icon"  => "fas fa-user-tie",
-                //                                            "link"  => generateUrl('petugas'),
-                //                                    ],
-                //                                    2 => [
-                //                                            "id"    => 2,
-                //                                            "title" => "Siswa",
-                //                                            "icon"  => "fas fa-user",
-                //                                            "link"  => generateUrl('siswa'),
-                //                                    ]
-                //                            ]
-                //                    ];
-                //                }
-
-                if ($roleManager->checkMinimumRole(RoleEnumeration::PETUGAS)) {
-                    $pageArray[3] = [
-                            "id"    => 3,
-                            "title" => "Pembayaran",
-                            "icon"  => "fas fa-history",
+                if ($roleManager->checkMinimumRole(RoleEnumeration::ADMINISTRATOR)) {
+                    $pageArray[2] = [
+                            "id"    => 2,
+                            "title" => "Pengguna",
+                            "icon"  => "fas fa-users",
                             "link"  => "user",
                             "child" => [
                                     1 => [
-                                            "id"    => 3,
-                                            "title" => "History",
-                                            "icon"  => "fas fa-history",
-                                            "link"  => generateUrl('pembayaran'),
+                                            "id"    => 1,
+                                            "title" => "Petugas",
+                                            "icon"  => "fas fa-user-tie",
+                                            "link"  => generateUrl('petugas'),
                                     ],
                                     2 => [
                                             "id"    => 2,
-                                            "title" => "Transaksi",
-                                            "icon"  => "fas fa-exchange",
-                                            "link"  => generateUrl('pembayaran_transaksi'),
+                                            "title" => "Siswa",
+                                            "icon"  => "fas fa-user",
+                                            "link"  => generateUrl('siswa'),
                                     ]
                             ]
                     ];
                 }
 
-                //                if ($roleManager->checkMinimumRole(RoleEnumeration::SISWA)) {
-                //                    $pageArray[3] = [
-                //                            "id"    => 3,
-                //                            "title" => "History Pembayaran",
-                //                            "icon"  => "fas fa-history",
-                //                            "link"  => "sources/models/pengaduan",
-                //                            "child" => null,
-                //                    ];
-                //                }
-                //
-                //                if ($roleManager->checkMinimumRole(RoleEnumeration::PETUGAS)) {
-                //                    $pageArray[4] = [
-                //                            "id"    => 4,
-                //                            "title" => "Transaksi Pembayaran",
-                //                            "icon"  => "fas fa-exchange",
-                //                            "link"  => "src/models/verval",
-                //                            "child" => null,
-                //                    ];
-                //                }
+                if ($roleManager->checkMinimumRole(RoleEnumeration::SISWA)) {
+                    $pageArray[3] = [
+                            "id"    => 3,
+                            "title" => "History Pembayaran",
+                            "icon"  => "fas fa-history",
+                            "link"  => UtilsManager::generateRoute('pembayaran_history'),
+                            "child" => null,
+                    ];
+                }
 
-                $pageArray[4] = [
+                if ($roleManager->checkMinimumRole(RoleEnumeration::PETUGAS)) {
+                    $pageArray[4] = [
+                            "id"    => 4,
+                            "title" => "Transaksi Pembayaran",
+                            "icon"  => "fas fa-exchange",
+                            "link"  => UtilsManager::generateRoute('pembayaran_transaksi'),
+                            "child" => null,
+                    ];
+                }
+
+                $pageArray[5] = [
                         "id"    => 6,
                         "title" => "Pengaturan",
                         "icon"  => "fas fa-cog",
