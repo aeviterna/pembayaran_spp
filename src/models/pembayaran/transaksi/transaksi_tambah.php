@@ -161,7 +161,7 @@ $pageItemObject = [
                                             </div>
                                             <div class="col-4">
                                                 <a href="<?php
-                                                echo generateUrl('petugas'); ?>"
+                                                echo UtilsManager::generateRoute('pembayaran_transaksi'); ?>"
                                                    class="btn btn-warning btn-block"
                                                 >Kembali
                                                 </a>
