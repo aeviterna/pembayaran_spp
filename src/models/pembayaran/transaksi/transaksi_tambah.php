@@ -15,7 +15,10 @@ $databaseManager = new DatabaseManager();
 $roleManager = new RoleManager(SessionManager::get('role'));
 UtilsManager::isAdministratorOrAbove($roleManager);
 
-$nisn = UtilsManager::getQueryQuery('nisn');
+if (UtilsManager::getQueryQuery('nisn')) {
+    $nisn = UtilsManager::getQueryQuery('nisn');
+    $nisn = openssl_decrypt($nisn, 'AES-128-ECB', Configuration::OPENSSL_ENCRYPTION_KEY);
+}
 
 $pageItemObject = [
         'title'      => 'Tambah Transaksi',
@@ -200,8 +203,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $spp = $databaseManager->read("spp", "*", "id_spp = '$id_spp'");
     $spp = $spp->fetch_assoc();
 
-    if ($jumlah_bayar < $spp['nominal']) {
-        echo "<script>errorModal('Maaf, jumlah bayar SPP dari user kurang dari nominal SPP yang seharusnya dibayarkan.', null, 'card-container')</script>";
+    $isPaid = $databaseManager->read("pembayaran", "*",
+            "nisn = '$nisn' AND bulan_dibayar = '$bulan' AND tahun_dibayar = '$tahun'");
+
+    if ($isPaid->num_rows > 0) {
+        echo "<script>errorModal('Maaf, SPP untuk bulan dan tahun tersebut sudah dibayarkan.', null, 'card-container')</script>";
+        exit();
+    }
+
+    if (intval($jumlah_bayar) < intval($spp['nominal'])) {
+        echo "<script>errorModal('Maaf, jumlah bayar SPP dari siswa kurang dari nominal SPP yang seharusnya dibayarkan.', null, 'card-container')</script>";
+        exit();
     }
 
     try {

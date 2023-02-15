@@ -109,7 +109,7 @@ $roleManager = new RoleManager(SessionManager::get("role"));
                 if ($roleManager->checkMinimumRole(RoleEnumeration::SISWA)) {
                     $pageArray[3] = [
                             "id"    => 3,
-                            "title" => "History Pembayaran",
+                            "title" => "Riwayat Pembayaran",
                             "icon"  => "fas fa-history",
                             "link"  => UtilsManager::generateRoute('pembayaran_history'),
                             "child" => null,

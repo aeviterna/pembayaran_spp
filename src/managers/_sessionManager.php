@@ -70,6 +70,10 @@ class SessionManager
      */
     public static function checkStatus(): bool
     {
+        if (self::get('is_siswa')) {
+            return true;
+        }
+
         if (self::get('status') == 1) {
             return true;
         }

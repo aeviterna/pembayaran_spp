@@ -2,20 +2,28 @@
 
 require_once(dirname(__FILE__, 4)."/managers/_databaseManager.php");
 require_once(dirname(__FILE__, 4)."/managers/_sessionManager.php");
-require_once(dirname(__FILE__, 4)."/managers/_utilsManager.php");
 require_once(dirname(__FILE__, 4)."/managers/_roleManager.php");
+require_once(dirname(__FILE__, 4)."/managers/_utilsManager.php");
+
 require_once(dirname(__FILE__, 4)."/utilities/_functions.php");
-require_once(dirname(__FILE__, 4)."/utilities/_enumeration.php");
 
 SessionManager::startSession();
-checkIfLoggedIn();
-checkStatus();
+UtilsManager::isLoggedIn();
+UtilsManager::isAccountActivated();
 
-$roleManager = new RoleManager(SessionManager::get("role"));
+$databaseManager = new DatabaseManager();
+$roleManager = new RoleManager(SessionManager::get('role'));
+UtilsManager::isAdministratorOrAbove($roleManager);
 
-if (!$roleManager->checkMinimumRole(RoleEnumeration::ADMINISTRATOR)) {
-    locationRedirect(generateUrl('home'));
-}
+$pageItemObject = [
+        'title'      => 'Pembayaran',
+        'breadcrumb' => [
+                [
+                        'title' => 'Pembayaran',
+                        'link'  => UtilsManager::generateRoute('pembayaran_transaksi')
+                ],
+        ]
+];
 
 ?>
 
@@ -23,20 +31,29 @@ if (!$roleManager->checkMinimumRole(RoleEnumeration::ADMINISTRATOR)) {
 <html lang="en">
 <head>
     <?php
-    $headTitle = "Pembayaran";
+    $headTitle = "Tambah Transaksi";
 
     require_once(dirname(__FILE__, 4)."/components/_head.php");
     require_once(dirname(__FILE__, 4)."/components/_dataTableHead.php");
     require_once(dirname(__FILE__, 4)."/components/_modal.php");
     ?>
+
+    <style>
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+    </style>
 </head>
 <body class="hold-transition layout-navbar-fixed layout-fixed light-mode" id="body-theme">
-<div class="wrapper" id="wrapper">
+<div class="wrapper">
     <?php
-    $navigationActive = array(3, 2);
-
     include_once(dirname(__FILE__, 4)."/components/_navigation.php");
-
     ?>
 
     <div class="content-wrapper">
@@ -46,80 +63,48 @@ if (!$roleManager->checkMinimumRole(RoleEnumeration::ADMINISTRATOR)) {
                     <div class="col-sm">
                         <div class="card p-2">
                             <?php
-                            $pageItemObject = array(
-                                    "title"      => "Pembayaran",
-                                    "breadcrumb" => array(
-                                            array(
-                                                    "title" => "Pembayaran",
-                                                    "link"  => generateUrl('pembayaran')
-                                            ),
-                                    )
-                            );
                             require_once(dirname(__FILE__, 4)."/components/_contentHead.php");
                             ?>
+                            <div id="card-container" class="card-body">
+                                <div class="col-sm">
+                                    <table id="main-table" class="table table-bordered table-stripped table-sm">
+                                        <thead>
+                                        <tr>
+                                            <th class="text-center align-middle export">NISN</th>
+                                            <th class="text-center align-middle export">NIS</th>
+                                            <th class="text-center align-middle export">Nama</th>
+                                            <th class="text-center align-middle export">Kelas</th>
+                                            <th class="text-center align-middle export">No Telpon</th>
+                                            <th class="text-center align-middle export">Alamat</th>
+                                            <th class="text-center align-middle export">Aksi</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php
+                                        $siswa_all = $databaseManager->read("siswa", "*", "dihapus = '0'");
+                                        $siswa_all = $siswa_all->fetch_all(MYSQLI_ASSOC);
 
-                            <div class="card-body">
+                                        foreach ($siswa_all as $siswa) {
+                                            $kelas = $databaseManager->read("kelas", "*",
+                                                    "id_kelas = '".$siswa['id_kelas']."'")->fetch_assoc();
 
-                                <div class="row">
-                                    <div class="col-sm">
-                                        <table id="main-table" class="table table-bordered table-stripped table-sm">
-                                            <thead>
-                                            <tr>
-                                                <!--                                                <th class="text-center align-middle export">No.</th>-->
-                                                <th class="text-center align-middle export">NISN</th>
-                                                <th class="text-center align-middle export">NIS</th>
-                                                <th class="text-center align-middle export">Nama</th>
-                                                <th class="text-center align-middle export">Kelas</th>
-                                                <th class="text-center align-middle export">Alamat</th>
-                                                <th class="text-center align-middle export">No Telpon</th>
-                                                <th class="text-center align-middle">Aksi</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <?php
-                                            $databaseManager = new DatabaseManager();
-
-                                            $result = $databaseManager->read("siswa", "*", "dihapus='0'",
-                                                    "ORDER BY nama ASC");
-                                            $result = $result->fetch_all(MYSQLI_ASSOC);
-
-                                            try {
-                                            $i = 1;
-                                            foreach ($result
-
-                                            as $row) {
-                                            $nisn = $row['nisn'];
-                                            $nis = $row['nis'];
-                                            $nama = $row['nama'];
-                                            $alamat = $row['alamat'];
-                                            $no_telpon = $row['no_telp'];
-
-                                            $kelas = $databaseManager->read("kelas", "nama_kelas, kompetensi_keahlian",
-                                                    "id_kelas='".$row['id_kelas']."'");
-                                            $kelas_fetch = $kelas->fetch_assoc();
-                                            $kelas = $kelas_fetch['nama_kelas'];
-                                            $kompetensi_keahlian = $kelas_fetch['kompetensi_keahlian'];
                                             ?>
                                             <tr>
-                                                <td class='text-center align-middle'><?php
-                                                    echo $nisn; ?></td>
-                                                <td class='text-center align-middle'><?php
-                                                    echo $nis; ?></td>
-                                                <td class='text-center align-middle'><?php
-                                                    echo $nama; ?></td>
-                                                <td class='text-center align-middle'><?php
-                                                    echo $kelas." ".$kompetensi_keahlian; ?></td>
-                                                <td class='text-center align-middle'><?php
-                                                    echo $alamat ?></td>
-                                                <td class='text-center align-middle'><?php
-                                                    echo $no_telpon; ?></td>
-                                                <td class='text-center align-middle'>
+                                                <td class="text-center align-middle export"><?= $siswa['nisn'] ?></td>
+                                                <td class="text-center align-middle export"><?= $siswa['nis'] ?></td>
+                                                <td class="text-center align-middle export"><?= $siswa['nama'] ?></td>
+                                                <td class="text-center align-middle export"><?= $kelas['nama_kelas']." ".$kelas['kompetensi_keahlian'] ?></td>
+                                                <td class="text-center align-middle export"><?= $siswa['no_telp'] ?></td>
+                                                <td class="text-center align-middle export"><?= $siswa['alamat'] ?></td>
+                                                <td class="text-center align-middle export">
                                                     <div class="btn-group">
                                                         <a class="btn btn-app bg-info m-0"
                                                            href="<?php
                                                            echo UtilsManager::generateRoute('pembayaran_transaksi_tambah',
                                                                    [
-                                                                           'nisn' => $nisn
+                                                                           'nisn' => openssl_encrypt($siswa['nisn'],
+                                                                                   "AES-128-ECB",
+                                                                                   Configuration::OPENSSL_ENCRYPTION_KEY)
                                                                    ])
                                                            ?>"
                                                         >
@@ -128,26 +113,13 @@ if (!$roleManager->checkMinimumRole(RoleEnumeration::ADMINISTRATOR)) {
                                                     </div>
                                                 </td>
 
-                                                <?php
-                                                $i++;
-                                                }
-                                                } catch (Exception $e) {
-                                                    echo $e->getMessage();
-                                                }
-                                                ?>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                            </tr>
+                                            <?php
+                                        }
+                                        ?>
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <a class="btn btn-primary btn-block mt-1"
-                                   href="<?php
-                                   echo generateUrl('siswa_tambah') ?>"><i
-                                            class="fa fa-plus"></i>
-                                    Buat</a><a class="btn btn-warning btn-block mt-1"
-                                               href="<?php
-                                               echo generateUrl('siswa_pulih') ?>"><i
-                                            class="fa fa-wrench"></i>
-                                    Pulih</a>
                             </div>
                         </div>
                     </div>
@@ -155,6 +127,8 @@ if (!$roleManager->checkMinimumRole(RoleEnumeration::ADMINISTRATOR)) {
             </div>
         </div>
     </div>
+
+
 </div>
 
 <?php
@@ -163,4 +137,3 @@ require_once(dirname(__FILE__, 4)."/components/_dataTableScript.php");
 ?>
 </body>
 </html>
-

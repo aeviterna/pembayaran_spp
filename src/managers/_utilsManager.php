@@ -117,6 +117,31 @@ class UtilsManager
     }
 
     /**
+     * Check if the user is a student
+     *
+     * @param  string  $nisn
+     *
+     * @return void
+     */
+    public static function isSiswaAccessingOwnData(string $nisn): void
+    {
+        if (SessionManager::get('is_siswa')) {
+            self::redirect(self::generateRoute('pembayaran_history_siswa', [
+                    'nisn' => $nisn,
+            ]));
+        }
+    }
+
+    public static function isSiswaValidation(string $nisn): void
+    {
+        if (!SessionManager::get('role') == RoleEnumeration::ADMINISTRATOR) {
+            if (SessionManager::get('nisn') != $nisn) {
+                self::redirect(self::generateRoute('home'));
+            }
+        }
+    }
+
+    /**
      * Get a query from the the GET method
      *
      * @param  string  $key
@@ -161,7 +186,10 @@ class UtilsManager
             $disabled = $input['disabled'] ?? false;
             $options = $input['options'] ?? [];
 
-            $inputFields .= "<label for='".$name."'>".$label."</label>";
+
+            if ($label != "") {
+                $inputFields .= "<label for='".$name."'>".$label."</label>";
+            }
             $inputFields .= "<div class='input-group mb-3'>";
             $inputFields .= "<div class='input-group-append'>";
             $inputFields .= "<div class='input-group-text'>";

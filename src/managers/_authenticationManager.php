@@ -114,6 +114,7 @@ class AuthenticationManager
             SessionManager::set("nisn", $result["nisn"]);
             SessionManager::set("id", $result['nisn']);
             SessionManager::set("logged_in", true);
+            SessionManager::set("is_siswa", true);
             SessionManager::set("role", RoleEnumeration::SISWA);
 
             return json_encode([
@@ -196,6 +197,7 @@ class AuthenticationManager
             SessionManager::set("username", $result["username"]);
             SessionManager::set("id", $result['id_petugas']);
             SessionManager::set("logged_in", true);
+            SessionManager::set("is_siswa", false);
             SessionManager::set("status", true);
             SessionManager::set("role", $result["id_level"]);
 
