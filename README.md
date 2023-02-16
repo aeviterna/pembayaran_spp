@@ -8,6 +8,18 @@
 
 ---
 
+### Konfirmasi Pembayaran SPP Secara Online
+
+Dengan layanan pembayaran SPP online, siswa dapat dengan mudah melakukan konfirmasi pembayaran dan
+melihat riwayat pembayaran mereka secara online. Sistem ini memungkinkan siswa untuk menghindari
+antrean panjang di kantor keuangan sekolah dan membayar SPP dengan mudah melalui internet. Selain
+itu, fitur riwayat pembayaran memungkinkan siswa untuk melacak status pembayaran mereka dan
+memastikan bahwa pembayaran mereka telah diterima oleh pihak sekolah. Dengan layanan pembayaran SPP
+online, siswa dapat menghemat waktu dan tenaga, sehingga dapat lebih fokus pada kegiatan
+belajar-mengajar.
+
+## Disclaimer
+
 Website ini dibuat untuk Uji Kompetensi Keahlian Rekayasa Perangkat Lunak (RPL) SMK Negeri 2 Balikpapan.
 Beberapa kode yang digunakan dalam pembuatan website ini terinspirasi dari beberapa sumber,
 diantaranya: [NotHydra](https://github.com/NotHydra/pelaporan-pengaduan-masyarakat)
