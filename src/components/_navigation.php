@@ -78,7 +78,7 @@ $roleManager = new RoleManager(SessionManager::get("role"));
                                 "id"    => 1,
                                 "title" => "Utama",
                                 "icon"  => "fas fa-home",
-                                "link"  => "",
+                                "link"  => UtilsManager::generateRoute('utama'),
                                 "child" => null,
                         ]
                 ];

@@ -13,6 +13,7 @@ class UtilsManager
      */
     public static array $routes = [
             'home'                            => '/'.Configuration::BASE_URL.'/index.php',
+            'utama'                           => '/'.Configuration::BASE_URL.'/src/models/utama.php',
             'landing_page'                    => '/'.Configuration::BASE_URL.'/landing_page.php',
             'status'                          => '/'.Configuration::BASE_URL.'/src/models/status.php',
             'auth'                            => '/'.Configuration::BASE_URL.'/src/models/auth/index.php',
@@ -121,7 +122,7 @@ class UtilsManager
     public static function isAdministratorOrAbove(RoleManager $roleManager): void
     {
         if (!$roleManager->checkMinimumRole(RoleEnumeration::ADMINISTRATOR)) {
-            self::redirect(self::generateRoute('home'));
+            self::redirect(self::generateRoute('utama'));
         }
     }
 
@@ -152,7 +153,7 @@ class UtilsManager
     {
         if (!SessionManager::get('role') == RoleEnumeration::ADMINISTRATOR) {
             if (SessionManager::get('nisn') != $nisn) {
-                self::redirect(self::generateRoute('home'));
+                self::redirect(self::generateRoute('utama'));
             }
         }
     }
@@ -179,53 +180,6 @@ class UtilsManager
     public static function getPostQuery(string $key): string
     {
         return $_POST[$key];
-    }
-
-    /**
-     * Generate statistic cards
-     *
-     * @param  array  $inputs
-     *
-     * @return string
-     */
-    public static function generateStatisticCards(array $inputs): string
-    {
-        $inputFields = "";
-
-        // generate admin lte card
-        foreach ($inputs as $input) {
-            $title = $input['title'];
-            $value = $input['value'];
-            $iconClass = $input['iconClass'] ?? 'fas fa-tag';
-            $color = $input['color'] ?? 'primary';
-            $link = $input['link'] ?? '#';
-
-            $inputFields .= "<div class='row'>
-                                <div class='small-box bg-".$color."'>
-                                    <div class='inner'>
-                                        <h3>".$value."</h3>
-                                        <p>".$title."</p>
-                                    </div>
-                                    <div class='icon'>
-                                        <i class='".$iconClass."'></i>
-                                    </div>
-                                    <a href='".$link."' class='small-box-footer'>More info <i class='fas fa-arrow-circle-right'></i></a>
-                                </div>
-                            </div>";
-
-//            $inputFields .= "<div class='col-lg-3 col-6'>
-//                                <div class='small-box bg-".$color."'>
-//                                    <div class='inner'>
-//                                        <h3>".$value."</h3>
-//                                        <p>".$title."</p>
-//                                    </div>
-//                                    <div class='icon'>
-//                                        <i class='".$iconClass."'></i>
-//                                    </div>
-//                                    <a href='".$link."' class='small-box-footer'>More info <i class='fas fa-arrow-circle-right'></i></a>
-//                                </div>
-//                            </div>";
-        }
     }
 
     /**

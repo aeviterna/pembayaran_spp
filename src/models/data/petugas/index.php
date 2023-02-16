@@ -19,10 +19,6 @@ if (!$roleManager->checkMinimumRole(RoleEnumeration::ADMINISTRATOR)) {
 
 $databaseManager = new DatabaseManager();
 
-$result = $databaseManager->read("petugas", "*", "dihapus='0'",
-        "ORDER BY nama ASC");
-$result = $result->fetch_all(MYSQLI_ASSOC);
-
 $result_count = $databaseManager->read("petugas", "COUNT(id_petugas) AS total_petugas", "dihapus='0'");
 
 // get all petugas with id_level 2
@@ -176,6 +172,10 @@ $result_superadmin = $databaseManager->read("petugas", "COUNT(id_petugas) as tot
                                                     $extraFilter = $extraFilter." AND id_level='$levelFilter'";
                                                 }
                                             }
+
+                                            $result = $databaseManager->read("petugas", "*", "dihapus='0'",
+                                                    "$extraFilter ORDER BY nama ASC");
+                                            $result = $result->fetch_all(MYSQLI_ASSOC);
 
                                             try {
                                             $i = 1;
