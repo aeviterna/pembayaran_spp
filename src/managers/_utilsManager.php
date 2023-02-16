@@ -12,38 +12,47 @@ class UtilsManager
      * @var array|string[]
      */
     public static array $routes = [
-            'home'                        => '/'.Configuration::BASE_URL.'/index.php',
-            'status'                      => '/'.Configuration::BASE_URL.'/src/models/status.php',
-            'auth'                        => '/'.Configuration::BASE_URL.'/src/models/auth/index.php',
-            'register_siswa'              => '/'.Configuration::BASE_URL.'/src/models/auth/register_siswa.php',
-            'register_petugas'            => '/'.Configuration::BASE_URL.'/src/models/auth/register_petugas.php',
-            'login_siswa'                 => '/'.Configuration::BASE_URL.'/src/models/auth/login_siswa.php',
-            'login_petugas'               => '/'.Configuration::BASE_URL.'/src/models/auth/login_petugas.php',
-            'logout'                      => '/'.Configuration::BASE_URL.'/src/models/auth/logout.php',
-            'petugas'                     => '/'.Configuration::BASE_URL.'/src/models/data/petugas/index.php',
-            'petugas_tambah'              => '/'.Configuration::BASE_URL.'/src/models/data/petugas/petugas_tambah.php',
-            'petugas_ubah'                => '/'.Configuration::BASE_URL.'/src/models/data/petugas/petugas_ubah.php?id={id}',
-            'petugas_hapus'               => '/'.Configuration::BASE_URL.'/src/models/data/petugas/petugas_hapus.php?id={id}',
-            'petugas_ubah_password'       => '/'.Configuration::BASE_URL.'/src/models/data/petugas/petugas_ubah_password.php?id={id}',
-            'petugas_pulih'               => '/'.Configuration::BASE_URL.'/src/models/data/petugas/pulih/index.php',
-            'petugas_pulih_item'          => '/'.Configuration::BASE_URL.'/src/models/data/petugas/pulih/pulih_item.php?id={id}',
-            'siswa'                       => '/'.Configuration::BASE_URL.'/src/models/data/siswa/index.php',
-            'siswa_tambah'                => '/'.Configuration::BASE_URL.'/src/models/data/siswa/siswa_tambah.php',
-            'siswa_ubah'                  => '/'.Configuration::BASE_URL.'/src/models/data/siswa/siswa_ubah.php?id={id}',
-            'siswa_hapus'                 => '/'.Configuration::BASE_URL.'/src/models/data/siswa/siswa_hapus.php?id={id}',
-            'siswa_ubah_password'         => '/'.Configuration::BASE_URL.'/src/models/data/siswa/siswa_ubah_password.php?id={id}',
-            'kelas'                       => '/'.Configuration::BASE_URL.'/src/models/kelas/index.php',
-            'kelas_tambah'                => '/'.Configuration::BASE_URL.'/src/models/kelas/kelas_tambah.php',
-            'kelas_ubah'                  => '/'.Configuration::BASE_URL.'/src/models/kelas/kelas_ubah.php?id={id}',
-            'kelas_hapus'                 => '/'.Configuration::BASE_URL.'/src/models/kelas/kelas_hapus.php?id={id}',
-            'spp'                         => '/'.Configuration::BASE_URL.'/src/models/spp/index.php',
-            'spp_tambah'                  => '/'.Configuration::BASE_URL.'/src/models/spp/spp_tambah.php',
-            'spp_ubah'                    => '/'.Configuration::BASE_URL.'/src/models/spp/spp_ubah.php?id={id}',
-            'spp_hapus'                   => '/'.Configuration::BASE_URL.'/src/models/spp/spp_hapus.php?id={id}',
-            'pembayaran_history'          => '/'.Configuration::BASE_URL.'/src/models/pembayaran/history/index.php',
-            'pembayaran_history_siswa'    => '/'.Configuration::BASE_URL.'/src/models/pembayaran/history/history_siswa.php?nisn={nisn}',
-            'pembayaran_transaksi'        => '/'.Configuration::BASE_URL.'/src/models/pembayaran/transaksi/index.php',
-            'pembayaran_transaksi_tambah' => '/'.Configuration::BASE_URL.'/src/models/pembayaran/transaksi/transaksi_tambah.php?nisn={nisn}',
+            'home'                            => '/'.Configuration::BASE_URL.'/index.php',
+            'landing_page'                    => '/'.Configuration::BASE_URL.'/landing_page.php',
+            'status'                          => '/'.Configuration::BASE_URL.'/src/models/status.php',
+            'auth'                            => '/'.Configuration::BASE_URL.'/src/models/auth/index.php',
+            'register_siswa'                  => '/'.Configuration::BASE_URL.'/src/models/auth/register_siswa.php',
+            'register_petugas'                => '/'.Configuration::BASE_URL.'/src/models/auth/register_petugas.php',
+            'login_siswa'                     => '/'.Configuration::BASE_URL.'/src/models/auth/login_siswa.php',
+            'login_petugas'                   => '/'.Configuration::BASE_URL.'/src/models/auth/login_petugas.php',
+            'logout'                          => '/'.Configuration::BASE_URL.'/src/models/auth/logout.php',
+            'petugas'                         => '/'.Configuration::BASE_URL.'/src/models/data/petugas/index.php',
+            'petugas_tambah'                  => '/'.Configuration::BASE_URL.'/src/models/data/petugas/petugas_tambah.php',
+            'petugas_ubah'                    => '/'.Configuration::BASE_URL.'/src/models/data/petugas/petugas_ubah.php?id={id}',
+            'petugas_hapus'                   => '/'.Configuration::BASE_URL.'/src/models/data/petugas/petugas_hapus.php?id={id}',
+            'petugas_ubah_password'           => '/'.Configuration::BASE_URL.'/src/models/data/petugas/petugas_ubah_password.php?id={id}',
+            'petugas_pulih'                   => '/'.Configuration::BASE_URL.'/src/models/data/petugas/pulih/index.php',
+            'petugas_pulih_item'              => '/'.Configuration::BASE_URL.'/src/models/data/petugas/pulih/pulih_item.php?id={id}',
+            'siswa'                           => '/'.Configuration::BASE_URL.'/src/models/data/siswa/index.php',
+            'siswa_tambah'                    => '/'.Configuration::BASE_URL.'/src/models/data/siswa/siswa_tambah.php',
+            'siswa_ubah'                      => '/'.Configuration::BASE_URL.'/src/models/data/siswa/siswa_ubah.php?id={id}',
+            'siswa_hapus'                     => '/'.Configuration::BASE_URL.'/src/models/data/siswa/siswa_hapus.php?id={id}',
+            'siswa_ubah_password'             => '/'.Configuration::BASE_URL.'/src/models/data/siswa/siswa_ubah_password.php?id={id}',
+            'kelas'                           => '/'.Configuration::BASE_URL.'/src/models/data/kelas/index.php',
+            'kelas_tambah'                    => '/'.Configuration::BASE_URL.'/src/models/data/kelas/kelas_tambah.php',
+            'kelas_ubah'                      => '/'.Configuration::BASE_URL.'/src/models/data/kelas/kelas_ubah.php?id={id}',
+            'kelas_hapus'                     => '/'.Configuration::BASE_URL.'/src/models/data/kelas/kelas_hapus.php?id={id}',
+            'kelas_pulih'                     => '/'.Configuration::BASE_URL.'/src/models/data/kelas/pulih/index.php',
+            'kelas_pulih_item'                => '/'.Configuration::BASE_URL.'/src/models/data/kelas/pulih/pulih_item.php?id={id}',
+            'spp'                             => '/'.Configuration::BASE_URL.'/src/models/data/spp/index.php',
+            'spp_tambah'                      => '/'.Configuration::BASE_URL.'/src/models/data/spp/spp_tambah.php',
+            'spp_ubah'                        => '/'.Configuration::BASE_URL.'/src/models/data/spp/spp_ubah.php?id={id}',
+            'spp_hapus'                       => '/'.Configuration::BASE_URL.'/src/models/data/spp/spp_hapus.php?id={id}',
+            'spp_pulih'                       => '/'.Configuration::BASE_URL.'/src/models/data/spp/pulih/index.php',
+            'spp_pulih_item'                  => '/'.Configuration::BASE_URL.'/src/models/data/spp/pulih/pulih_item.php?id={id}',
+            'pembayaran_history'              => '/'.Configuration::BASE_URL.'/src/models/pembayaran/history/index.php',
+            'pembayaran_history_siswa'        => '/'.Configuration::BASE_URL.'/src/models/pembayaran/history/history_siswa.php?nisn={nisn}',
+            'pembayaran_transaksi'            => '/'.Configuration::BASE_URL.'/src/models/pembayaran/transaksi/index.php',
+            'pembayaran_transaksi_tambah'     => '/'.Configuration::BASE_URL.'/src/models/pembayaran/transaksi/transaksi_tambah.php?nisn={nisn}',
+            'pembayaran_transaksi_ubah'       => '/'.Configuration::BASE_URL.'/src/models/pembayaran/transaksi/transaksi_ubah.php?id_pembayaran={id_pembayaran}',
+            'pembayaran_transaksi_hapus'      => '/'.Configuration::BASE_URL.'/src/models/pembayaran/transaksi/transaksi_hapus.php?id_pembayaran={id_pembayaran}',
+            'pembayaran_transaksi_pulih'      => '/'.Configuration::BASE_URL.'/src/models/pembayaran/transaksi/pulih/index.php',
+            'pembayaran_transaksi_pulih_item' => '/'.Configuration::BASE_URL.'/src/models/pembayaran/transaksi/pulih/pulih_item.php?id_pembayaran={id_pembayaran}',
     ];
 
     /*
@@ -132,6 +141,13 @@ class UtilsManager
         }
     }
 
+    /**
+     * Check if the user is a student or administrator
+     *
+     * @param  string  $nisn
+     *
+     * @return void
+     */
     public static function isSiswaValidation(string $nisn): void
     {
         if (!SessionManager::get('role') == RoleEnumeration::ADMINISTRATOR) {
@@ -163,6 +179,53 @@ class UtilsManager
     public static function getPostQuery(string $key): string
     {
         return $_POST[$key];
+    }
+
+    /**
+     * Generate statistic cards
+     *
+     * @param  array  $inputs
+     *
+     * @return string
+     */
+    public static function generateStatisticCards(array $inputs): string
+    {
+        $inputFields = "";
+
+        // generate admin lte card
+        foreach ($inputs as $input) {
+            $title = $input['title'];
+            $value = $input['value'];
+            $iconClass = $input['iconClass'] ?? 'fas fa-tag';
+            $color = $input['color'] ?? 'primary';
+            $link = $input['link'] ?? '#';
+
+            $inputFields .= "<div class='row'>
+                                <div class='small-box bg-".$color."'>
+                                    <div class='inner'>
+                                        <h3>".$value."</h3>
+                                        <p>".$title."</p>
+                                    </div>
+                                    <div class='icon'>
+                                        <i class='".$iconClass."'></i>
+                                    </div>
+                                    <a href='".$link."' class='small-box-footer'>More info <i class='fas fa-arrow-circle-right'></i></a>
+                                </div>
+                            </div>";
+
+//            $inputFields .= "<div class='col-lg-3 col-6'>
+//                                <div class='small-box bg-".$color."'>
+//                                    <div class='inner'>
+//                                        <h3>".$value."</h3>
+//                                        <p>".$title."</p>
+//                                    </div>
+//                                    <div class='icon'>
+//                                        <i class='".$iconClass."'></i>
+//                                    </div>
+//                                    <a href='".$link."' class='small-box-footer'>More info <i class='fas fa-arrow-circle-right'></i></a>
+//                                </div>
+//                            </div>";
+        }
     }
 
     /**

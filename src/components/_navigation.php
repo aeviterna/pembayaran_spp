@@ -86,22 +86,34 @@ $roleManager = new RoleManager(SessionManager::get("role"));
                 if ($roleManager->checkMinimumRole(RoleEnumeration::ADMINISTRATOR)) {
                     $pageArray[2] = [
                             "id"    => 2,
-                            "title" => "Pengguna",
-                            "icon"  => "fas fa-users",
+                            "title" => "Data",
+                            "icon"  => "fas fa-database",
                             "link"  => "user",
                             "child" => [
                                     1 => [
                                             "id"    => 1,
                                             "title" => "Petugas",
                                             "icon"  => "fas fa-user-tie",
-                                            "link"  => generateUrl('petugas'),
+                                            "link"  => UtilsManager::generateRoute('petugas'),
                                     ],
                                     2 => [
                                             "id"    => 2,
                                             "title" => "Siswa",
                                             "icon"  => "fas fa-user",
-                                            "link"  => generateUrl('siswa'),
-                                    ]
+                                            "link"  => UtilsManager::generateRoute('siswa'),
+                                    ],
+                                    3 => [
+                                            "id"    => 3,
+                                            "title" => "Kelas",
+                                            "icon"  => "fas fa-school",
+                                            "link"  => UtilsManager::generateRoute('kelas'),
+                                    ],
+                                    4 => [
+                                            "id"    => 4,
+                                            "title" => "SPP",
+                                            "icon"  => "fas fa-credit-card",
+                                            "link"  => UtilsManager::generateRoute('spp'),
+                                    ],
                             ]
                     ];
                 }

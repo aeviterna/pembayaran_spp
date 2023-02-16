@@ -1,45 +1,6 @@
 <?php
 
-require_once(dirname(__FILE__, 4)."/managers/_databaseManager.php");
-require_once(dirname(__FILE__, 4)."/managers/_sessionManager.php");
-require_once(dirname(__FILE__, 4)."/managers/_roleManager.php");
-require_once(dirname(__FILE__, 4)."/managers/_utilsManager.php");
-require_once(dirname(__FILE__, 4)."/utilities/_functions.php");
-require_once(dirname(__FILE__, 4)."/utilities/_enumeration.php");
-
-SessionManager::startSession();
-UtilsManager::isLoggedIn();
-UtilsManager::isAccountActivated();
-
-$roleManager = new RoleManager(SessionManager::get("role"));
-
-if (!$roleManager->checkMinimumRole(RoleEnumeration::ADMINISTRATOR)) {
-    locationRedirect(generateUrl('home'));
-}
-
-$databaseManager = new DatabaseManager();
-
-$result = $databaseManager->read("petugas", "*", "dihapus='0'",
-        "ORDER BY nama ASC");
-$result = $result->fetch_all(MYSQLI_ASSOC);
-
-$result_count = $databaseManager->read("petugas", "COUNT(id_petugas) AS total_petugas", "dihapus='0'");
-
-// get all petugas with id_level 2
-
-$petugas = RoleEnumeration::PETUGAS;
-$admin = RoleEnumeration::ADMINISTRATOR;
-$superadmin = RoleEnumeration::SUPERADMINISTRATOR;
-
-$result_petugas = $databaseManager->read("petugas", "COUNT(id_petugas) as total_level_petugas",
-        "dihapus='0' AND id_level='$petugas'",
-        "ORDER BY nama ASC");
-$result_admin = $databaseManager->read("petugas", "COUNT(id_petugas) as total_level_admin",
-        "dihapus='0' AND id_level='$admin'",
-        "ORDER BY nama ASC");
-$result_superadmin = $databaseManager->read("petugas", "COUNT(id_petugas) as total_level_superadmin",
-        "dihapus='0' AND id_level='$superadmin'",
-        "ORDER BY nama ASC");
+$roleManager = getManager();
 
 ?>
 
@@ -66,40 +27,6 @@ $result_superadmin = $databaseManager->read("petugas", "COUNT(id_petugas) as tot
     <div class="content-wrapper">
         <div class="content-header">
             <div class="container-fluid">
-                <?php
-                $cardArray = [
-                        [
-                                "id"    => 1,
-                                "child" => [
-                                        [
-                                                "id"    => 1,
-                                                "title" => "Total Akun",
-                                                "value" => $result_count->fetch_assoc()['total_petugas'],
-                                                "icon"  => "users"
-                                        ],
-                                        [
-                                                "id"    => 2,
-                                                "title" => "Total Petugas",
-                                                "value" => $result_petugas->fetch_assoc()['total_level_petugas'],
-                                                "icon"  => "user"
-                                        ],
-                                        [
-                                                "id"    => 3,
-                                                "title" => "Total Admin",
-                                                "value" => $result_admin->fetch_assoc()['total_level_admin'],
-                                                "icon"  => "user"
-                                        ],
-                                        [
-                                                "id"    => 4,
-                                                "title" => "Total Superadmin",
-                                                "value" => $result_superadmin->fetch_assoc()['total_level_superadmin'],
-                                                "icon"  => "user"
-                                        ]
-                                ]
-                        ]
-                ];
-                require_once(dirname(__FILE__, 4)."/components/_card.php");
-                ?>
                 <div class="row">
                     <div class="col-sm">
                         <div class="card p-2">
@@ -176,6 +103,12 @@ $result_superadmin = $databaseManager->read("petugas", "COUNT(id_petugas) as tot
                                                     $extraFilter = $extraFilter." AND id_level='$levelFilter'";
                                                 }
                                             }
+
+                                            $databaseManager = new DatabaseManager();
+
+                                            $result = $databaseManager->read("petugas", "*", "dihapus='0'",
+                                                    "$extraFilter ORDER BY nama ASC");
+                                            $result = $result->fetch_all(MYSQLI_ASSOC);
 
                                             try {
                                             $i = 1;
@@ -280,11 +213,7 @@ $result_superadmin = $databaseManager->read("petugas", "COUNT(id_petugas) as tot
                                    href="<?php
                                    echo generateUrl('petugas_tambah') ?>"><i
                                             class="fa fa-plus"></i>
-                                    Buat</a><a class="btn btn-warning btn-block mt-1"
-                                               href="<?php
-                                               echo generateUrl('petugas_pulih') ?>"><i
-                                            class="fa fa-wrench"></i>
-                                    Pulih</a>
+                                    Buat</a>
                             </div>
                         </div>
                     </div>

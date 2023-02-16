@@ -182,7 +182,7 @@ class AuthenticationManager
         $username = $payload->username;
         $password = $payload->password;
 
-        $result = $this->databaseManager->read("petugas", "username, id_petugas, password, id_level",
+        $result = $this->databaseManager->read("petugas", "username, id_petugas, password, id_level, status",
                 "username = '$username'");
         $result = $result->fetch_assoc();
 
@@ -198,7 +198,7 @@ class AuthenticationManager
             SessionManager::set("id", $result['id_petugas']);
             SessionManager::set("logged_in", true);
             SessionManager::set("is_siswa", false);
-            SessionManager::set("status", true);
+            SessionManager::set("status", $result["status"]);
             SessionManager::set("role", $result["id_level"]);
 
             return json_encode([

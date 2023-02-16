@@ -14,7 +14,6 @@ UtilsManager::isAccountActivated();
 $databaseManager = new DatabaseManager();
 $roleManager = new RoleManager(SessionManager::get('role'));
 
-
 if (UtilsManager::getQueryQuery('nisn')) {
     $nisn = UtilsManager::getQueryQuery('nisn');
     $nisn = openssl_decrypt($nisn, 'AES-128-ECB', Configuration::OPENSSL_ENCRYPTION_KEY);
@@ -175,6 +174,8 @@ foreach (range($query['min_year'], $query['max_year']) as $year) {
                                             <th class="text-center align-middle export">Bulan Pembayaran</th>
                                             <th class="text-center align-middle export">Nominal Pembayaran</th>
                                             <th class="text-center align-middle export">Jumlah Dibayar</th>
+                                            <th class="text-center align-middle export">Aksi</th>
+
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -212,6 +213,16 @@ foreach (range($query['min_year'], $query['max_year']) as $year) {
                                             $bulan = $indonesian_month_names[$bulan];
                                             $nominal = number_format($spp['nominal'], 0, ',', '.');
                                             $jumlah = number_format($item['jumlah_bayar'], 0, ',', '.');
+
+                                            $actions = "-";
+                                            if ($roleManager->checkMinimumRole(RoleEnumeration::ADMINISTRATOR)) {
+                                                $actions = "
+                                                    <a href='".UtilsManager::generateRoute('pembayaran_transaksi_ubah',
+                                                                ['id_pembayaran' => $item['id_pembayaran']])."' class='btn btn-warning'><i class='fa fa-edit'></i></a>
+                                                    <a href='".UtilsManager::generateRoute('pembayaran_transaksi_hapus',
+                                                                ['id_pembayaran' => $item['id_pembayaran']])."' class='btn btn-danger'><i class='fa fa-trash'></i></a>
+                                                ";
+                                            }
                                             echo "
                                                 <tr>
                                                     <td class='text-center align-middle'>$tanggal</td>
@@ -219,6 +230,7 @@ foreach (range($query['min_year'], $query['max_year']) as $year) {
                                                     <td class='text-center align-middle'>$bulan</td>
                                                     <td class='text-center align-middle'>Rp. $nominal</td>
                                                     <td class='text-center align-middle'>Rp. $jumlah</td>
+                                                    <td class='text-center align-middle'>$actions</td>
                                                 </tr>
                                             ";
                                         }

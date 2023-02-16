@@ -4,14 +4,14 @@ require_once(dirname(__FILE__, 4)."/managers/_databaseManager.php");
 require_once(dirname(__FILE__, 4)."/managers/_authenticationManager.php");
 require_once(dirname(__FILE__, 4)."/managers/_sessionManager.php");
 require_once(dirname(__FILE__, 4)."/managers/_roleManager.php");
+require_once(dirname(__FILE__, 4)."/managers/_utilsManager.php.php");
 require_once(dirname(__FILE__, 4)."/utilities/_functions.php");
 require_once(dirname(__FILE__, 4)."/utilities/_enumeration.php");
 require_once(dirname(__FILE__, 4)."/definitions/siswa/_registerSiswaDataDefinition.php");
 
-
 SessionManager::startSession();
-checkIfLoggedIn();
-checkStatus();
+UtilsManager::isLoggedIn();
+UtilsManager::isAccountActivated();
 
 $roleManager = new RoleManager(SessionManager::get("role"));
 

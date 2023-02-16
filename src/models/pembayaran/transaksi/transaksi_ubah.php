@@ -15,21 +15,19 @@ $databaseManager = new DatabaseManager();
 $roleManager = new RoleManager(SessionManager::get('role'));
 UtilsManager::isAdministratorOrAbove($roleManager);
 
-if (UtilsManager::getQueryQuery('nisn')) {
-    $nisn = UtilsManager::getQueryQuery('nisn');
-    $nisn = openssl_decrypt($nisn, 'AES-128-ECB', Configuration::OPENSSL_ENCRYPTION_KEY);
-}
+$id_pembayaran = UtilsManager::getQueryQuery('id_pembayaran');
 
 $pageItemObject = [
-        'title'      => 'Tambah Transaksi',
+        'title'      => 'Ubah Transaksi',
         'breadcrumb' => [
                 [
                         'title' => 'Pembayaran',
                         'link'  => UtilsManager::generateRoute('pembayaran_transaksi')
                 ],
                 [
-                        'title' => 'Tambah Transaksi',
-                        'link'  => UtilsManager::generateRoute('pembayaran_transaksi_tambah', ['nisn' => $nisn])
+                        'title' => 'Ubah Transaksi',
+                        'link'  => UtilsManager::generateRoute('pembayaran_transaksi_tambah',
+                                ['id_pembayaran' => $id_pembayaran])
                 ],
         ]
 ];
@@ -39,7 +37,7 @@ $pageItemObject = [
 <html lang="en">
 <head>
     <?php
-    $headTitle = "Tambah Transaksi";
+    $headTitle = "Ubah Transaksi";
 
     require_once(dirname(__FILE__, 4)."/components/_head.php");
     require_once(dirname(__FILE__, 4)."/components/_dataTableHead.php");

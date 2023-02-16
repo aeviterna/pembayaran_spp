@@ -3,18 +3,27 @@
 require_once(dirname(__FILE__, 4)."/managers/_databaseManager.php");
 require_once(dirname(__FILE__, 4)."/managers/_sessionManager.php");
 require_once(dirname(__FILE__, 4)."/managers/_roleManager.php");
+require_once(dirname(__FILE__, 4)."/managers/_utilsManager.php");
 require_once(dirname(__FILE__, 4)."/utilities/_functions.php");
 require_once(dirname(__FILE__, 4)."/utilities/_enumeration.php");
 
 SessionManager::startSession();
-checkIfLoggedIn();
-checkStatus();
+UtilsManager::isLoggedIn();
+UtilsManager::isAccountActivated();
 
 $roleManager = new RoleManager(SessionManager::get("role"));
 
 if (!$roleManager->checkMinimumRole(RoleEnumeration::ADMINISTRATOR)) {
     locationRedirect(generateUrl('home'));
 }
+
+$databaseManager = new DatabaseManager();
+
+$result = $databaseManager->read("siswa", "*", "dihapus='0'",
+        "ORDER BY nama ASC");
+$result = $result->fetch_all(MYSQLI_ASSOC);
+
+$result_count = $databaseManager->read("siswa", "COUNT(nisn) AS total_siswa", "dihapus='0'");
 
 ?>
 
@@ -41,6 +50,22 @@ if (!$roleManager->checkMinimumRole(RoleEnumeration::ADMINISTRATOR)) {
     <div class="content-wrapper">
         <div class="content-header">
             <div class="container-fluid">
+                <?php
+                $cardArray = [
+                        [
+                                "id"    => 1,
+                                "child" => [
+                                        [
+                                                "id"    => 1,
+                                                "title" => "Total Siswa",
+                                                "value" => $result_count->fetch_assoc()['total_siswa'],
+                                                "icon"  => "graduation-cap"
+                                        ]
+                                ]
+                        ]
+                ];
+                require_once(dirname(__FILE__, 4)."/components/_card.php");
+                ?>
                 <div class="row">
                     <div class="col-sm">
                         <div class="card p-2">
@@ -76,12 +101,6 @@ if (!$roleManager->checkMinimumRole(RoleEnumeration::ADMINISTRATOR)) {
                                             </thead>
                                             <tbody>
                                             <?php
-                                            $databaseManager = new DatabaseManager();
-
-                                            $result = $databaseManager->read("siswa", "*", "dihapus='0'",
-                                                    "ORDER BY nama ASC");
-                                            $result = $result->fetch_all(MYSQLI_ASSOC);
-
                                             try {
                                             $i = 1;
                                             foreach ($result
@@ -93,10 +112,11 @@ if (!$roleManager->checkMinimumRole(RoleEnumeration::ADMINISTRATOR)) {
                                             $alamat = $row['alamat'];
                                             $no_telpon = $row['no_telp'];
 
-                                            $kelas = $databaseManager->read("kelas", "nama_kelas",
+                                            $kelas_result = $databaseManager->read("kelas", "*",
                                                     "id_kelas='".$row['id_kelas']."'");
-                                            $kelas = $kelas->fetch_assoc();
-                                            $kelas = $kelas['nama_kelas'];
+                                            $kelas_result = $kelas_result->fetch_assoc();
+                                            $kelas = $kelas_result['nama_kelas'];
+                                            $kompetensi_keahlian = $kelas_result['kompetensi_keahlian'];
                                             ?>
                                             <tr>
                                                 <td class='text-center align-middle'><?php
@@ -106,7 +126,7 @@ if (!$roleManager->checkMinimumRole(RoleEnumeration::ADMINISTRATOR)) {
                                                 <td class='text-center align-middle'><?php
                                                     echo $nama; ?></td>
                                                 <td class='text-center align-middle'><?php
-                                                    echo $kelas; ?></td>
+                                                    echo $kelas." ".$kompetensi_keahlian; ?></td>
                                                 <td class='text-center align-middle'><?php
                                                     echo $alamat ?></td>
                                                 <td class='text-center align-middle'><?php

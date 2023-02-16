@@ -13,14 +13,15 @@ UtilsManager::isAccountActivated();
 
 $databaseManager = new DatabaseManager();
 $roleManager = new RoleManager(SessionManager::get('role'));
-UtilsManager::isSiswaAccessingOwnData(SessionManager::get('nisn'));
+UtilsManager::isSiswaAccessingOwnData(openssl_encrypt(SessionManager::get('nisn'), 'AES-128-ECB',
+        Configuration::OPENSSL_ENCRYPTION_KEY));
 
 $pageItemObject = [
-        'title'      => 'History Pembayaran',
+        'title'      => 'Riwayat Pembayaran',
         'breadcrumb' => [
                 [
                         'title' => 'Pembayaran',
-                        'link'  => UtilsManager::generateRoute('pembayaran_transaksi')
+                        'link'  => UtilsManager::generateRoute('pembayaran_history')
                 ],
         ]
 ];
@@ -31,7 +32,7 @@ $pageItemObject = [
 <html lang="en">
 <head>
     <?php
-    $headTitle = "Tambah Transaksi";
+    $headTitle = "Riwayat Pembayaran";
 
     require_once(dirname(__FILE__, 4)."/components/_head.php");
     require_once(dirname(__FILE__, 4)."/components/_dataTableHead.php");
