@@ -21,8 +21,8 @@ belajar-mengajar.
 ## Disclaimer
 
 Website ini dibuat untuk Uji Kompetensi Keahlian Rekayasa Perangkat Lunak (RPL) SMK Negeri 2 Balikpapan.
-Beberapa kode yang digunakan dalam pembuatan website ini terinspirasi dari beberapa sumber,
-diantaranya: [NotHydra](https://github.com/NotHydra/pelaporan-pengaduan-masyarakat)
+Beberapa kode yang digunakan dalam pembuatan website ini terinspirasi atau digunakan dari beberapa sumber,
+diantaranya: [NotHydra](https://github.com/NotHydra/pelaporan-pengaduan-masyarakat), [BootstrapMade](https://bootstrapmade.com/)
 
 ## License
 
