@@ -1,6 +1,7 @@
 <?php
 
 require_once(dirname(__FILE__, 4)."/src/managers/_authenticationManager.php");
+require_once(dirname(__FILE__, 4)."/src/managers/_utilsManager.php");
 require_once(dirname(__FILE__, 4)."/src/definitions/petugas/_loginPetugasDataDefinition.php");
 SessionManager::startSession();
 ?>
@@ -65,7 +66,7 @@ SessionManager::startSession();
 </div>
 
 <div class="title is-6 m-1 p-0"><b>Copyright © <?php
-        echo date("Y"); ?> XII RPL</b></div>
+        echo date("Y"); ?> Yehezkiel Dio</b></div>
 
 <?php
 
@@ -81,8 +82,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $status = $response['status'];
     $message = $response['message'];
 
+    $link = UtilsManager::generateRoute('utama');
     if ($status === "success") {
-        echo "<script>successModal('$message', null, 'login-container', '/pwpb/pembayaran_spp/index.php')</script>";
+        echo "<script>successModal('$message', null, 'login-container', '$link')</script>";
     } else {
         echo "<script>errorModal('$message', null, 'login-container')</script>";
     }

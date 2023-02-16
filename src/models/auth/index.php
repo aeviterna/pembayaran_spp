@@ -26,7 +26,7 @@
 </div>
 
 <div class="title is-6 m-1 p-0"><b>Copyright © <?php
-        echo date("Y"); ?> XII RPL</b></div>
+        echo date("Y"); ?> Yehezkiel Dio</b></div>
 
 </body>
 </html>
