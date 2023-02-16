@@ -103,7 +103,7 @@ if ($result["id_level"] > SessionManager::get("role")) {
                                         <div class="input-group mb-3">
                                             <div class="input-group-append">
                                                 <div class="input-group-text">
-                                                    <span class="fas fa-tag"></span>
+                                                    <span class="fas fa-check-square"></span>
                                                 </div>
                                             </div>
                                             <input type="text" class="form-control" placeholder="Konfirmasi Password"

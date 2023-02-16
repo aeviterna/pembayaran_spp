@@ -4,7 +4,7 @@ require_once(dirname(__FILE__, 4)."/managers/_databaseManager.php");
 require_once(dirname(__FILE__, 4)."/managers/_authenticationManager.php");
 require_once(dirname(__FILE__, 4)."/managers/_sessionManager.php");
 require_once(dirname(__FILE__, 4)."/managers/_roleManager.php");
-require_once(dirname(__FILE__, 4)."/managers/_utilsManager.php.php");
+require_once(dirname(__FILE__, 4)."/managers/_utilsManager.php");
 require_once(dirname(__FILE__, 4)."/utilities/_functions.php");
 require_once(dirname(__FILE__, 4)."/utilities/_enumeration.php");
 require_once(dirname(__FILE__, 4)."/definitions/siswa/_registerSiswaDataDefinition.php");
@@ -70,111 +70,116 @@ $databaseManager = new DatabaseManager();
                                       method="post" class="row mb-2"
                                       onsubmit="return confirmModal('form', this, 'card-container');">
                                     <div class="col-sm">
-                                        <label for="nisn">NISN</label>
-                                        <div class="input-group mb-3">
 
-                                            <div class="input-group-append">
-                                                <div class="input-group-text">
-                                                    <span class="fas fa-user"></span>
-                                                </div>
-                                            </div>
+                                        <?php
 
-                                            <input type="number" class="form-control" placeholder="NISN"
-                                                   name="nisn"
-                                                   value="<?php
-                                                   echo $_POST['nisn'] ?? null ?>">
-                                        </div>
+                                        $allKelas = $databaseManager->read("kelas", "*", "dihapus='0'");
+                                        $allKelas = $allKelas->fetch_all(MYSQLI_ASSOC);
 
-                                        <label for="nis">NIS</label>
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-append">
-                                                <div class="input-group-text">
-                                                    <span class="fas fa-tag"></span>
-                                                </div>
-                                            </div>
-                                            <input type="number" class="form-control" placeholder="NIS"
-                                                   name="nis"
-                                                   value="<?php
-                                                   echo $_POST['nis'] ?? null ?>" required>
-                                        </div>
+                                        $allSpp = $databaseManager->read("spp", "*", "dihapus='0'");
+                                        $allSpp = $allSpp->fetch_all(MYSQLI_ASSOC);
 
-                                        <label for="nama">Nama</label>
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-append">
-                                                <div class="input-group-text">
-                                                    <span class="fas fa-tag"></span>
-                                                </div>
-                                            </div>
-                                            <input type="text" class="form-control" placeholder="Nama"
-                                                   name="nis"
-                                                   value="<?php
-                                                   echo $_POST['nama'] ?? null ?>" required>
-                                        </div>
+                                        $all_kelas = array(
+                                                '00' => 'Pilih Kelas'
+                                        );
+                                        $all_spp = array(
+                                                '00' => 'Pilih SPP'
+                                        );
 
-                                        <label for="nama">Password</label>
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-append">
-                                                <div class="input-group-text">
-                                                    <span class="fas fa-tag"></span>
-                                                </div>
-                                            </div>
-                                            <input type="password" class="form-control" placeholder="Password"
-                                                   name="password"
-                                                   value="<?php
-                                                   echo $_POST['password'] ?? null ?>" required>
-                                        </div>
+                                        foreach ($allKelas as $kelas) {
+                                            $all_kelas[$kelas['id_kelas']] = $kelas['nama_kelas']." ".$kelas['kompetensi_keahlian'];
+                                        }
 
-                                        <label for="alamat">Alamat</label>
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-append">
-                                                <div class="input-group-text">
-                                                    <span class="fas fa-tag"></span>
-                                                </div>
-                                            </div>
-                                            <input type="text" class="form-control" placeholder="Alamat"
-                                                   name="alamat"
-                                                   value="<?php
-                                                   echo $_POST['alamat'] ?? null ?>" required>
-                                        </div>
+                                        foreach ($allSpp as $spp) {
+                                            $all_spp[$spp['id_spp']] = $spp['tahun']." - Rp. ".number_format($spp['nominal'],
+                                                            0, ',', '.');
+                                        }
+                                        ?>
 
-                                        <label for="no_telp">No Telpon</label>
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-append">
-                                                <div class="input-group-text">
-                                                    <span class="fas fa-tag"></span>
-                                                </div>
-                                            </div>
-                                            <input type="number" class="form-control" placeholder="No Telpon"
-                                                   name="no_telp"
-                                                   value="<?php
-                                                   echo $_POST['no_telp'] ?? null ?>" required>
-                                        </div>
+                                        <?php
+                                        $inputs = [
+                                                [
+                                                        "type"      => "number",
+                                                        'label'     => 'NISN',
+                                                        'name'      => 'nisn',
+                                                        'value'     => $_POST['nisn'] ?? '',
+                                                        'iconClass' => 'fas fa-id-card',
+                                                        'required'  => true,
+                                                        'disabled'  => false,
+                                                ],
+                                                [
+                                                        "type"      => "number",
+                                                        'label'     => 'NIS',
+                                                        'name'      => 'nis',
+                                                        'value'     => $_POST['nis'] ?? '',
+                                                        'iconClass' => 'fas fa-address-card',
+                                                        'required'  => true,
+                                                        'disabled'  => false,
+                                                ],
+                                                [
+                                                        "type"      => "password",
+                                                        'label'     => 'Password',
+                                                        'name'      => 'password',
+                                                        'value'     => $_POST['password'] ?? '',
+                                                        'iconClass' => 'fas fa-address-card',
+                                                        'required'  => true,
+                                                        'disabled'  => false,
+                                                ],
+                                                [
+                                                        "type"      => "text",
+                                                        'label'     => 'Nama',
+                                                        'name'      => 'nama',
+                                                        'value'     => $_POST['nama'] ?? '',
+                                                        'iconClass' => 'fas fa-user',
+                                                        'required'  => true,
+                                                        'disabled'  => false,
+                                                ],
+                                                [
+                                                        "type"      => "text",
+                                                        'label'     => 'Alamat',
+                                                        'name'      => 'alamat',
+                                                        'value'     => $_POST['alamat'] ?? '',
+                                                        'iconClass' => 'fas fa-home',
+                                                        'required'  => true,
+                                                        'disabled'  => false,
+                                                ],
+                                                [
+                                                        "type"      => "number",
+                                                        'label'     => 'No Telpon',
+                                                        'name'      => 'no_telp',
+                                                        'value'     => $_POST['no_telp'] ?? '',
+                                                        'iconClass' => 'fas fa-phone',
+                                                        'required'  => true,
+                                                        'disabled'  => false,
+                                                ],
+                                                [
+                                                        "type"      => "select",
+                                                        "label"     => "Kelas",
+                                                        "name"      => "id_kelas",
+                                                        "options"   => $all_kelas,
+                                                        "value"     => strval(00),
+                                                        "iconClass" => "fas fa-chalkboard-teacher",
+                                                        "required"  => true,
+                                                        "disabled"  => false
+                                                ],
+                                                [
+                                                        "type"      => "select",
+                                                        "label"     => "SPP",
+                                                        "name"      => "id_spp",
+                                                        "options"   => $all_spp,
+                                                        "value"     => strval(00),
+                                                        "iconClass" => "fas fa-money-check-alt",
+                                                        "required"  => true,
+                                                        "disabled"  => false
+                                                ],
 
-                                        <label for="id_kelas">ID Kelas</label>
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-append">
-                                                <div class="input-group-text">
-                                                    <span class="fas fa-tag"></span>
-                                                </div>
-                                            </div>
-                                            <input type="number" class="form-control" placeholder="ID Kelas"
-                                                   name="id_kelas"
-                                                   value="<?php
-                                                   echo $_POST['id_kelas'] ?? null ?>" required>
-                                        </div>
+                                        ];
 
-                                        <label for="id_spp">ID SPP</label>
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-append">
-                                                <div class="input-group-text">
-                                                    <span class="fas fa-tag"></span>
-                                                </div>
-                                            </div>
-                                            <input type="number" class="form-control" placeholder="ID SPP"
-                                                   name="id_spp"
-                                                   value="<?php
-                                                   echo $_POST['id_spp'] ?? null ?>" required>
-                                        </div>
+                                        $inputFields = UtilsManager::generateInputFields($inputs);
+                                        echo $inputFields;
+
+
+                                        ?>
 
 
                                         <div class="row">
@@ -184,7 +189,7 @@ $databaseManager = new DatabaseManager();
                                             </div>
                                             <div class="col-4">
                                                 <a href="<?php
-                                                echo generateUrl('petugas'); ?>"
+                                                echo generateUrl('siswa'); ?>"
                                                    class="btn btn-warning btn-block"
                                                 >Kembali
                                                 </a>
@@ -217,22 +222,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $no_telp = $_POST['no_telp'] ?? null;
     $id_kelas = $_POST['id_kelas'] ?? null;
     $id_spp = $_POST['id_spp'] ?? null;
+    $id_level = RoleEnumeration::SISWA;
 
-//    $payload =
+    $payload = new RegisterSiswaDataDefinition(
+            $nama,
+            $nisn,
+            $password,
+            $nis,
+            $id_kelas,
+            $alamat,
+            $no_telp,
+            $id_spp,
+            $id_level
+    );
 
-//    $payload = new RegisterPetugasDataDefinition($nama, $username, $password, $id_level);
-//    $authenticationManager = new AuthenticationManager();
-//    $result = $authenticationManager->registerPetugas($payload);
-//
-//    $response = json_decode($result, true);
-//    $status = $response['status'];
-//    $message = $response['message'];
-//
-//    if ($status === "success") {
-//        echo "<script>successModal('$message', 'index.php', 'login-container')</script>";
-//    } else {
-//        echo "<script>errorModal('$message', null, 'login-container')</script>";
-//    }
+    try {
+        $authenticationManager = new AuthenticationManager();
+        $result = $authenticationManager->registerSiswa($payload);
+
+        $response = json_decode($result, true);
+        $status = $response['status'];
+        $message = $response['message'];
+
+        if ($status === "success") {
+            echo "<script>successModal('$message', 'index.php', 'card-container')</script>";
+        } else {
+            echo "<script>errorModal('$message', null, 'card-container')</script>";
+        }
+
+    } catch (Exception $e) {
+        $error = str_replace("'", "", $e->getMessage());
+        echo "<script>errorModal('$error', null, 'card-container')</script>";
+    }
 
 }
 ?>

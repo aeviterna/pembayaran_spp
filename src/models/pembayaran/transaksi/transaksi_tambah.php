@@ -15,6 +15,7 @@ $databaseManager = new DatabaseManager();
 $roleManager = new RoleManager(SessionManager::get('role'));
 UtilsManager::isAdministratorOrAbove($roleManager);
 
+$nisn = "";
 if (UtilsManager::getQueryQuery('nisn')) {
     $nisn = UtilsManager::getQueryQuery('nisn');
     $nisn = openssl_decrypt($nisn, 'AES-128-ECB', Configuration::OPENSSL_ENCRYPTION_KEY);
@@ -85,18 +86,18 @@ $pageItemObject = [
                                         $siswa = $databaseManager->read("siswa", "*", "nisn = '$nisn'");
                                         $siswa = $siswa->fetch_assoc();
 
-                                        //                                        $allKelas = $databaseManager->read("kelas", "*", "dihapus='0'");
-                                        //                                        $allKelas = $allKelas->fetch_all(MYSQLI_ASSOC);
+                                        $allKelas = $databaseManager->read("kelas", "*", "dihapus='0'");
+                                        $allKelas = $allKelas->fetch_all(MYSQLI_ASSOC);
 
                                         $allSpp = $databaseManager->read("spp", "*", "dihapus='0'");
                                         $allSpp = $allSpp->fetch_all(MYSQLI_ASSOC);
 
-                                        //                                        $all_kelas = array();
-                                        //                                        $all_spp = array();
-                                        //
-                                        //                                        foreach ($allKelas as $kelas) {
-                                        //                                            $all_kelas[$kelas['id_kelas']] = $kelas['nama_kelas']." ".$kelas['kompetensi_keahlian'];
-                                        //                                        }
+                                        $all_kelas = array();
+                                        $all_spp = array();
+
+                                        foreach ($allKelas as $kelas) {
+                                            $all_kelas[$kelas['id_kelas']] = $kelas['nama_kelas']." ".$kelas['kompetensi_keahlian'];
+                                        }
 
                                         foreach ($allSpp as $spp) {
                                             $all_spp[$spp['id_spp']] = $spp['tahun']." - Rp. ".number_format($spp['nominal'],

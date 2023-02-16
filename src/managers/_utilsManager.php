@@ -219,7 +219,7 @@ class UtilsManager
                 $inputFields .= ($disabled ? " disabled" : "");
                 $inputFields .= " name='".$name."' value='".$value."' ".($required ? "required" : "").">";
             } elseif ($type == 'select') {
-                $inputFields .= "<select class='form-control' name='".$name."' ".($required ? "required" : "").">";
+                $inputFields .= "<select class='form-control' name='".$name."' ".($disabled ? "disabled" : "")." ".($required ? "required" : "").">";
                 foreach ($options as $key => $option) {
                     $selected = ($value == $key) ? "selected" : "";
                     $inputFields .= "<option value='".$key."' ".$selected.">".$option."</option>";
@@ -233,6 +233,14 @@ class UtilsManager
                 $inputFields .= "<input type='date' class='form-control' placeholder='".$label."'";
                 $inputFields .= ($disabled ? " disabled" : "");
                 $inputFields .= " name='".$name."' value='".$value."' ".($required ? "required" : "").">";
+            } elseif ($type == 'password') {
+                $inputFields .= "<input type='password' class='form-control' placeholder='".$label."'";
+                $inputFields .= ($disabled ? " disabled" : "");
+                $inputFields .= " name='".$name."' value='".$value."' ".($required ? "required" : "").">";
+            } elseif ($type == 'textarea') {
+                $inputFields .= "<textarea class='form-control' placeholder='".$label."'";
+                $inputFields .= ($disabled ? " disabled" : "");
+                $inputFields .= " name='".$name."' ".($required ? "required" : "").">".$value."</textarea>";
             }
 
             $inputFields .= "</div>";

@@ -77,19 +77,19 @@ $result_superadmin = $databaseManager->read("petugas", "COUNT(id_petugas) as tot
                                                 "id"    => 2,
                                                 "title" => "Total Petugas",
                                                 "value" => $result_petugas->fetch_assoc()['total_level_petugas'],
-                                                "icon"  => "user"
+                                                "icon"  => "user-tie"
                                         ],
                                         [
                                                 "id"    => 3,
                                                 "title" => "Total Admin",
                                                 "value" => $result_admin->fetch_assoc()['total_level_admin'],
-                                                "icon"  => "user"
+                                                "icon"  => "user-cog"
                                         ],
                                         [
                                                 "id"    => 4,
                                                 "title" => "Total Superadmin",
                                                 "value" => $result_superadmin->fetch_assoc()['total_level_superadmin'],
-                                                "icon"  => "user"
+                                                "icon"  => "user-secret"
                                         ]
                                 ]
                         ]

@@ -181,19 +181,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_level = $_POST["level"] ?? null;
 
     $payload = new RegisterPetugasDataDefinition($nama, $username, $password, $id_level);
-    $authenticationManager = new AuthenticationManager();
-    $result = $authenticationManager->registerPetugas($payload);
+    try {
+        $authenticationManager = new AuthenticationManager();
+        $result = $authenticationManager->registerPetugas($payload);
 
-    $response = json_decode($result, true);
-    $status = $response['status'];
-    $message = $response['message'];
+        $response = json_decode($result, true);
+        $status = $response['status'];
+        $message = $response['message'];
 
-    if ($status === "success") {
-        echo "<script>successModal('$message', 'index.php', 'login-container')</script>";
-    } else {
-        echo "<script>errorModal('$message', null, 'login-container')</script>";
+        if ($status === "success") {
+            echo "<script>successModal('$message', 'index.php', 'card-container')</script>";
+        } else {
+            echo "<script>errorModal('$message', null, 'card-container')</script>";
+        }
+
+    } catch (Exception $e) {
+        $error = str_replace("'", "", $e->getMessage());
+        echo "<script>errorModal('$error', null, 'card-container')</script>";
     }
-
 }
 ?>
 
