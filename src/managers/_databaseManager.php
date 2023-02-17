@@ -61,8 +61,16 @@ class DatabaseManager
      *
      * @return int|string
      */
-    public function create(string $table, string $fields, string $values): int|string
+    public function create(string $table, string $fields, string $values, bool $insertIgnore = false): int|string
     {
+        if ($insertIgnore) {
+            $query = sprintf("INSERT IGNORE INTO %s (%s) VALUES (%s)", $table, $fields, $values);
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute();
+
+            return $stmt->insert_id;
+        }
+
         $query = sprintf("INSERT INTO %s (%s) VALUES (%s)", $table, $fields, $values);
         $stmt = $this->connection->prepare($query);
         $stmt->execute();

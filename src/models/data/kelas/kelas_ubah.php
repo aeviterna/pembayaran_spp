@@ -26,6 +26,31 @@ $roleManager = new RoleManager(SessionManager::get("role"));
 if (!$roleManager->checkMinimumRole(RoleEnumeration::ADMINISTRATOR)) {
     locationRedirect(generateUrl('home'));
 }
+
+$daftar_kompetensi_keahlian = [
+        'TKJ'  => 'TKJ',
+        'RPL'  => 'RPL',
+        'MM'   => 'MM',
+        'DKV'  => 'DKV',
+        'TEI'  => 'TEI',
+        'TOM'  => 'TOM',
+        'TMS'  => 'TMS',
+        'TPTU' => 'TPTU',
+        'TSL'  => 'TSL',
+        'AKL'  => 'AKL',
+        'AP'   => 'AP',
+        'PM'   => 'PM',
+        'UPW'  => 'UPW',
+        'TB'   => 'TB',
+        'TBS'  => 'TBS'
+];
+
+$daftar_nama_kelas = [
+        'XII' => 'XII',
+        'XI'  => 'XI',
+        'X'   => 'X',
+];
+
 ?>
 
 <!doctype html>
@@ -86,23 +111,26 @@ if (!$roleManager->checkMinimumRole(RoleEnumeration::ADMINISTRATOR)) {
                                         <?php
                                         $inputs = [
                                                 [
-                                                        "type"      => "text",
+                                                        "type"      => "select",
                                                         'label'     => 'Nama Kelas',
                                                         'name'      => 'nama_kelas',
-                                                        'value'     => $result['nama_kelas'] ?? $_POST['nama_kelas'],
+                                                        'options'   => $daftar_nama_kelas,
+                                                        'value'     => $result['nama_kelas'],
                                                         'iconClass' => 'fas fa-user-graduate',
                                                         'required'  => true,
                                                         'disabled'  => false,
                                                 ],
                                                 [
-                                                        "type"      => "text",
+                                                        "type"      => "select",
                                                         'label'     => 'Kompetensi Keahlian',
                                                         'name'      => 'kompetensi_keahlian',
-                                                        'value'     => $result['kompetensi_keahlian'] ?? $_POST['kompetensi_keahlian'],
+                                                        'options'   => $daftar_kompetensi_keahlian,
+                                                        'value'     => $result['kompetensi_keahlian'],
                                                         'iconClass' => 'fas fa-code-branch',
                                                         'required'  => true,
                                                         'disabled'  => false,
                                                 ],
+
                                         ];
 
                                         $inputFields = UtilsManager::generateInputFields($inputs);
