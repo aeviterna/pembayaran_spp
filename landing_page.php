@@ -3747,7 +3747,7 @@
         <div class="container" data-aos="fade-up">
 
             <div class="section-header">
-                <h2>About Us</h2>
+                <h2>Tentang Kami</h2>
                 <p>
                     Dengan layanan pembayaran SPP online, siswa dapat dengan mudah melakukan konfirmasi pembayaran dan
                     melihat riwayat pembayaran mereka secara online. Sistem ini memungkinkan siswa untuk menghindari
@@ -3991,12 +3991,6 @@
 
 <!-- Template Main JS File -->
 <script>
-    /**
-     * Template Name: HeroBiz - v2.4.0
-     * Template URL: https://bootstrapmade.com/herobiz-bootstrap-business-template/
-     * Author: BootstrapMade.com
-     * License: https://bootstrapmade.com/license/
-     */
     document.addEventListener('DOMContentLoaded', () => {
         "use strict";
 
