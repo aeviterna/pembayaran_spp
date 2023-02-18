@@ -50,10 +50,10 @@ class UtilsManager
             'pembayaran_history_siswa'        => '/'.Configuration::BASE_URL.'/src/models/pembayaran/history/history_siswa.php?nisn={nisn}',
             'pembayaran_transaksi'            => '/'.Configuration::BASE_URL.'/src/models/pembayaran/transaksi/index.php',
             'pembayaran_transaksi_tambah'     => '/'.Configuration::BASE_URL.'/src/models/pembayaran/transaksi/transaksi_tambah.php?nisn={nisn}',
-            'pembayaran_transaksi_ubah'       => '/'.Configuration::BASE_URL.'/src/models/pembayaran/transaksi/transaksi_ubah.php?id_pembayaran={id_pembayaran}',
-            'pembayaran_transaksi_hapus'      => '/'.Configuration::BASE_URL.'/src/models/pembayaran/transaksi/transaksi_hapus.php?id_pembayaran={id_pembayaran}',
+            'pembayaran_transaksi_ubah'       => '/'.Configuration::BASE_URL.'/src/models/pembayaran/transaksi/transaksi_ubah.php?pembayaran={pembayaran}',
+            'pembayaran_transaksi_hapus'      => '/'.Configuration::BASE_URL.'/src/models/pembayaran/transaksi/transaksi_hapus.php?pembayaran={pembayaran}',
             'pembayaran_transaksi_pulih'      => '/'.Configuration::BASE_URL.'/src/models/pembayaran/transaksi/pulih/index.php',
-            'pembayaran_transaksi_pulih_item' => '/'.Configuration::BASE_URL.'/src/models/pembayaran/transaksi/pulih/pulih_item.php?id_pembayaran={id_pembayaran}',
+            'pembayaran_transaksi_pulih_item' => '/'.Configuration::BASE_URL.'/src/models/pembayaran/transaksi/pulih/pulih_item.php?pembayaran={pembayaran}',
     ];
 
     /*

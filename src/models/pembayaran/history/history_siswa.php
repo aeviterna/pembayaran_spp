@@ -5,6 +5,7 @@ require_once(dirname(__FILE__, 4)."/managers/_sessionManager.php");
 require_once(dirname(__FILE__, 4)."/managers/_roleManager.php");
 require_once(dirname(__FILE__, 4)."/managers/_utilsManager.php");
 
+require_once(dirname(__FILE__, 4)."/utilities/_configuration.php");
 require_once(dirname(__FILE__, 4)."/utilities/_functions.php");
 
 SessionManager::startSession();
@@ -84,7 +85,7 @@ foreach (range($query['min_year'], $query['max_year']) as $year) {
 <html lang="en">
 <head>
     <?php
-    $headTitle = "Tambah Transaksi";
+    $headTitle = "Riwayat Transaksi";
 
     require_once(dirname(__FILE__, 4)."/components/_head.php");
     require_once(dirname(__FILE__, 4)."/components/_dataTableHead.php");
@@ -170,10 +171,11 @@ foreach (range($query['min_year'], $query['max_year']) as $year) {
                                         <thead>
                                         <tr>
                                             <th class="text-center align-middle export">Tanggal Pembayaran</th>
-                                            <th class="text-center align-middle export">Tahun Pembayaran</th>
-                                            <th class="text-center align-middle export">Bulan Pembayaran</th>
+                                            <th class="text-center align-middle export">Tanggal SPP</th>
                                             <th class="text-center align-middle export">Nominal Pembayaran</th>
                                             <th class="text-center align-middle export">Jumlah Dibayar</th>
+                                            <th class="text-center align-middle export">Sisa Pembayaran</th>
+                                            <th class="text-center align-middle export">Status</th>
                                             <th class="text-center align-middle export">Aksi</th>
 
                                         </tr>
@@ -205,6 +207,8 @@ foreach (range($query['min_year'], $query['max_year']) as $year) {
                                             $spp = $databaseManager->read('spp', '*', "id_spp = '".$item['id_spp']."'");
                                             $spp = $spp->fetch_assoc();
 
+                                            $tahun_spp = $spp['tahun'];
+
                                             $tanggal = date('d F Y', strtotime($item['tgl_bayar']));
                                             $tanggal = str_replace(array_keys($indonesian_month_names),
                                                     array_values($indonesian_month_names), $tanggal);
@@ -213,23 +217,38 @@ foreach (range($query['min_year'], $query['max_year']) as $year) {
                                             $bulan = $indonesian_month_names[$bulan];
                                             $nominal = number_format($spp['nominal'], 0, ',', '.');
                                             $jumlah = number_format($item['jumlah_bayar'], 0, ',', '.');
+                                            $sisa = number_format($item['sisa_pembayaran'], 0, ',', '.');
+                                            $status = $item['status'];
+                                            $status_badge = "";
+
+                                            if ($status == 1) {
+                                                $status_badge = '<span class="badge badge-success">Lunas</span>';
+                                            } else {
+                                                $status_badge = '<span class="badge badge-danger">Tidak Lunas</span>';
+                                            }
 
                                             $actions = "-";
+
                                             if ($roleManager->checkMinimumRole(RoleEnumeration::ADMINISTRATOR)) {
                                                 $actions = "
                                                     <a href='".UtilsManager::generateRoute('pembayaran_transaksi_ubah',
-                                                                ['id_pembayaran' => $item['id_pembayaran']])."' class='btn btn-warning'><i class='fa fa-edit'></i></a>
+                                                                [
+                                                                        'pembayaran' => $item['id_pembayaran'],
+                                                                ])."' class='btn btn-warning'><i class='fa fa-edit'></i></a>
                                                     <a href='".UtilsManager::generateRoute('pembayaran_transaksi_hapus',
-                                                                ['id_pembayaran' => $item['id_pembayaran']])."' class='btn btn-danger'><i class='fa fa-trash'></i></a>
+                                                                [
+                                                                        'pembayaran' => $item['id_pembayaran'],
+                                                                ])."' class='btn btn-danger'><i class='fa fa-trash'></i></a>
                                                 ";
                                             }
                                             echo "
                                                 <tr>
                                                     <td class='text-center align-middle'>$tanggal</td>
-                                                    <td class='text-center align-middle'>$tahun</td>
-                                                    <td class='text-center align-middle'>$bulan</td>
+                                                    <td class='text-center align-middle'>$tahun_spp</td>
                                                     <td class='text-center align-middle'>Rp. $nominal</td>
                                                     <td class='text-center align-middle'>Rp. $jumlah</td>
+                                                    <td class='text-center align-middle'>Rp. $sisa</td>
+                                                    <td class='text-center align-middle'>$status_badge</td>
                                                     <td class='text-center align-middle'>$actions</td>
                                                 </tr>
                                             ";

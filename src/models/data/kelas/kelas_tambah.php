@@ -131,7 +131,7 @@ $daftar_nama_kelas = [
 
                                         <div class="row">
                                             <div class="col">
-                                                <button type="submit" class="btn btn-primary btn-block">Ubah
+                                                <button type="submit" class="btn btn-primary btn-block">Buat
                                                 </button>
                                             </div>
                                             <div class="col-4">

@@ -5,6 +5,7 @@ require_once(dirname(__FILE__, 4)."/managers/_sessionManager.php");
 require_once(dirname(__FILE__, 4)."/managers/_roleManager.php");
 require_once(dirname(__FILE__, 4)."/managers/_utilsManager.php");
 
+require_once(dirname(__FILE__, 4)."/utilities/_configuration.php");
 require_once(dirname(__FILE__, 4)."/utilities/_functions.php");
 
 SessionManager::startSession();
@@ -15,19 +16,19 @@ $databaseManager = new DatabaseManager();
 $roleManager = new RoleManager(SessionManager::get('role'));
 UtilsManager::isAdministratorOrAbove($roleManager);
 
-$id_pembayaran = UtilsManager::getQueryQuery('id_pembayaran');
+$id_pembayaran = UtilsManager::getQueryQuery('pembayaran');
 
 $pageItemObject = [
-        'title'      => 'Ubah Transaksi',
+        'title'      => 'Update Transaksi',
         'breadcrumb' => [
                 [
                         'title' => 'Pembayaran',
                         'link'  => UtilsManager::generateRoute('pembayaran_transaksi')
                 ],
                 [
-                        'title' => 'Ubah Transaksi',
-                        'link'  => UtilsManager::generateRoute('pembayaran_transaksi_tambah',
-                                ['id_pembayaran' => $id_pembayaran])
+                        'title' => 'Update Transaksi',
+                        'link'  => UtilsManager::generateRoute('pembayaran_transaksi_ubah',
+                                ['pembayaran' => $id_pembayaran])
                 ],
         ]
 ];
@@ -37,7 +38,7 @@ $pageItemObject = [
 <html lang="en">
 <head>
     <?php
-    $headTitle = "Ubah Transaksi";
+    $headTitle = "Update Transaksi";
 
     require_once(dirname(__FILE__, 4)."/components/_head.php");
     require_once(dirname(__FILE__, 4)."/components/_dataTableHead.php");
@@ -80,62 +81,35 @@ $pageItemObject = [
                                 >
                                     <div class="col-sm">
                                         <?php
-                                        $siswa = $databaseManager->read("siswa", "*", "nisn = '$nisn'");
-                                        $siswa = $siswa->fetch_assoc();
-
-                                        //                                        $allKelas = $databaseManager->read("kelas", "*", "dihapus='0'");
-                                        //                                        $allKelas = $allKelas->fetch_all(MYSQLI_ASSOC);
+                                        $allKelas = $databaseManager->read("kelas", "*", "dihapus='0'");
+                                        $allKelas = $allKelas->fetch_all(MYSQLI_ASSOC);
 
                                         $allSpp = $databaseManager->read("spp", "*", "dihapus='0'");
                                         $allSpp = $allSpp->fetch_all(MYSQLI_ASSOC);
 
-                                        //                                        $all_kelas = array();
-                                        //                                        $all_spp = array();
-                                        //
-                                        //                                        foreach ($allKelas as $kelas) {
-                                        //                                            $all_kelas[$kelas['id_kelas']] = $kelas['nama_kelas']." ".$kelas['kompetensi_keahlian'];
-                                        //                                        }
+                                        $all_kelas = array();
+                                        $all_spp = array();
 
-                                        foreach ($allSpp as $spp) {
-                                            $all_spp[$spp['id_spp']] = $spp['tahun']." - Rp. ".number_format($spp['nominal'],
-                                                            0, ',', '.');
-                                        }
+                                        $pembayaran = $databaseManager->read("pembayaran", "*",
+                                                "id_pembayaran = '$id_pembayaran'");
+                                        $pembayaran = $pembayaran->fetch_assoc();
 
                                         $inputs = [
                                                 [
-                                                        "type"      => "text",
-                                                        'label'     => 'NISN',
-                                                        'name'      => 'nisn',
-                                                        'value'     => $_POST['nisn'] ?? $siswa['nisn'],
-                                                        'iconClass' => 'fas fa-id-card',
+                                                        "type"      => "date",
+                                                        'label'     => 'Tanggal Dibayar (mm/dd/yyyy)',
+                                                        'name'      => 'tgl_bayar',
+                                                        'value'     => $pembayaran['tgl_bayar'] ?? $_POST['tgl_bayar'],
+                                                        'iconClass' => 'fas fa-calendar-alt',
                                                         'required'  => true,
-                                                        'disabled'  => true,
-                                                ],
-                                                [
-                                                        "type"      => "select",
-                                                        "label"     => "SPP",
-                                                        "name"      => "id_spp",
-                                                        "options"   => $all_spp,
-                                                        "value"     => strval($siswa['id_spp']),
-                                                        "iconClass" => "fas fa-money-bill-wave",
-                                                        "required"  => true,
-                                                        "disabled"  => false
+                                                        'disabled'  => false,
                                                 ],
                                                 [
                                                         "type"      => "number",
                                                         'label'     => 'Jumlah Bayar',
                                                         'name'      => 'jumlah_bayar',
-                                                        'value'     => $_POST['jumlah_bayar'] ?? '',
+                                                        'value'     => $pembayaran['jumlah_bayar'] ?? $_POST['jumlah_bayar'],
                                                         'iconClass' => 'fas fa-money-bill',
-                                                        'required'  => true,
-                                                        'disabled'  => false,
-                                                ],
-                                                [
-                                                        "type"      => "date",
-                                                        'label'     => 'Tanggal Dibayar (mm/dd/yyyy)',
-                                                        'name'      => 'tgl_bayar',
-                                                        'value'     => $_POST['tgl_bayar'] ?? '',
-                                                        'iconClass' => 'fas fa-calendar-alt',
                                                         'required'  => true,
                                                         'disabled'  => false,
                                                 ],
@@ -152,7 +126,11 @@ $pageItemObject = [
                                             </div>
                                             <div class="col-4">
                                                 <a href="<?php
-                                                echo UtilsManager::generateRoute('pembayaran_transaksi'); ?>"
+                                                echo UtilsManager::generateRoute('pembayaran_history_siswa', [
+                                                        'nisn' => openssl_encrypt($pembayaran['nisn'],
+                                                                "AES-128-ECB",
+                                                                Configuration::OPENSSL_ENCRYPTION_KEY)
+                                                ]); ?>"
                                                    class="btn btn-warning btn-block"
                                                 >Kembali
                                                 </a>
@@ -178,56 +156,110 @@ require_once(dirname(__FILE__, 4)."/components/_dataTableScript.php");
 
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $id_spp = UtilsManager::getPostQuery('id_spp');
-    $jumlah_bayar = UtilsManager::getPostQuery('jumlah_bayar');
-    $tanggal_bayar = UtilsManager::getPostQuery('tgl_bayar');
-
-    $phpDate = date('Y-m-d', strtotime($tanggal_bayar));
-    $tahun = date('Y', strtotime($phpDate));
-    $bulan = date('m', strtotime($phpDate));
-    $hari = date('d', strtotime($phpDate));
-
-    $spp = $databaseManager->read("spp", "*", "id_spp = '$id_spp'");
-    $spp = $spp->fetch_assoc();
-
-    $isPaid = $databaseManager->read("pembayaran", "*",
-            "nisn = '$nisn' AND bulan_dibayar = '$bulan' AND tahun_dibayar = '$tahun'");
-
-    if ($isPaid->num_rows > 0) {
-        echo "<script>errorModal('Maaf, SPP untuk bulan dan tahun tersebut sudah dibayarkan.', null, 'card-container')</script>";
-        exit();
-    }
-
-    if (intval($jumlah_bayar) < intval($spp['nominal'])) {
-        echo "<script>errorModal('Maaf, jumlah bayar SPP dari siswa kurang dari nominal SPP yang seharusnya dibayarkan.', null, 'card-container')</script>";
-        exit();
-    }
-
-    try {
-        $payload = [
-                'id_petugas'    => SessionManager::get('id'),
-                'nisn'          => $nisn,
-                'tgl_bayar'     => $phpDate,
-                'bulan_dibayar' => $bulan,
-                'tahun_dibayar' => $tahun,
-                'id_spp'        => $id_spp,
-                'jumlah_bayar'  => $jumlah_bayar
-        ];
-        $result = $databaseManager->create("pembayaran",
-                "id_petugas, nisn, tgl_bayar, bulan_dibayar, tahun_dibayar, id_spp, jumlah_bayar",
-                "'$payload[id_petugas]', '$payload[nisn]', '$payload[tgl_bayar]', '$payload[bulan_dibayar]', '$payload[tahun_dibayar]', '$payload[id_spp]', '$payload[jumlah_bayar]'");
-
-        if ($result) {
-            echo "<script>successModal('Sukses', 'index.php', 'card-container')</script>";
-        } else {
-            echo "<script>errorModal('Gagal', null, 'card-container')</script>";
-        }
-
-    } catch (Exception $e) {
-        $error = str_replace("'", "", $e->getMessage());
-        echo "<script>errorModal('$error', null, 'card-container')</script>";
-    }
+//    $id_spp = UtilsManager::getPostQuery('id_spp');
+//    $jumlah_bayar = UtilsManager::getPostQuery('jumlah_bayar');
+//    $tanggal_bayar = UtilsManager::getPostQuery('tgl_bayar');
+//
+//    $phpDate = date('Y-m-d', strtotime($tanggal_bayar));
+//    $tahun = date('Y', strtotime($phpDate));
+//    $bulan = date('m', strtotime($phpDate));
+//    $hari = date('d', strtotime($phpDate));
+//
+//    $sisa = 0;
+//    $status = '0';
+//
+//    $spp = $databaseManager->read("spp", "*", "id_spp = '$id_spp'");
+//    $spp = $spp->fetch_assoc();
+//
+//    $pembayaran = $databaseManager->read("pembayaran", "*",
+//            "nisn = '$nisn' AND id_spp = '$id_spp' AND bulan_dibayar = '$bulan' AND tahun_dibayar = '$tahun'");
+//    $pembayaran = $pembayaran->fetch_assoc();
+//
+//    if ($pembayaran) {
+//        if ($pembayaran['sisa_pembayaran'] == 0) {
+//            echo "<script>errorModal('Maaf, SPP dari siswa sudah lunas.', null, 'card-container')</script>";
+//            exit();
+//        }
+//
+//        if ($jumlah_bayar > $pembayaran['sisa_pembayaran']) {
+//            echo "<script>errorModal('Maaf, jumlah bayar SPP dari siswa lebih dari nominal SPP yang seharusnya dibayarkan.', null, 'card-container')</script>";
+//            exit();
+//        } else {
+//            if ($pembayaran['status'] == '1') {
+//                echo "<script>errorModal('Maaf, SPP dari siswa sudah lunas.', null, 'card-container')</script>";
+//                exit();
+//            }
+//
+//            $sisa = $pembayaran['sisa_pembayaran'] - $jumlah_bayar;
+//
+//            try {
+//                $jumlah_bayar = intval($pembayaran['jumlah_bayar']) + intval($jumlah_bayar);
+//
+//                if ($jumlah_bayar == $spp['nominal']) {
+//                    $status = '1';
+//                }
+//
+//                $set = "jumlah_bayar = '$jumlah_bayar', tgl_bayar = '$tanggal_bayar', sisa_pembayaran = '$sisa', status = '$status'";
+//
+//                $result = $databaseManager->update("pembayaran", $set, "id_pembayaran = '$pembayaran[id_pembayaran]'");
+//
+//                if ($result) {
+//                    echo "<script>successModal('Sukses', 'index.php', 'card-container')</script>";
+//                } else {
+//                    echo "<script>errorModal('Gagal', null, 'card-container')</script>";
+//                }
+//                exit();
+//
+//            } catch (Exception $e) {
+//                $error = str_replace("'", "", $e->getMessage());
+//                echo "<script>errorModal('$error', null, 'card-container')</script>";
+//                exit();
+//            }
+//        }
+//    } else {
+//        if ($jumlah_bayar > $spp['nominal']) {
+//            echo "<script>errorModal('Maaf, jumlah bayar SPP dari siswa lebih dari nominal SPP yang seharusnya dibayarkan.', null, 'card-container')</script>";
+//            exit();
+//        }
+//
+//        if (intval($jumlah_bayar) < intval($spp['nominal'])) {
+//            $sisa = intval($spp['nominal']) - intval($jumlah_bayar);
+//        }
+//
+//        try {
+//            if ($jumlah_bayar == $spp['nominal']) {
+//                $status = '1';
+//            }
+//
+//            $payload = [
+//                    'id_petugas'      => SessionManager::get('id'),
+//                    'nisn'            => $nisn,
+//                    'tgl_bayar'       => $phpDate,
+//                    'bulan_dibayar'   => $bulan,
+//                    'tahun_dibayar'   => $tahun,
+//                    'id_spp'          => $id_spp,
+//                    'jumlah_bayar'    => $jumlah_bayar,
+//                    'sisa_pembayaran' => $sisa,
+//                    'status'          => $status
+//            ];
+//
+//            $result = $databaseManager->create("pembayaran",
+//                    "id_petugas, nisn, tgl_bayar, bulan_dibayar, tahun_dibayar, id_spp, jumlah_bayar, sisa_pembayaran, status",
+//                    "'$payload[id_petugas]', '$payload[nisn]', '$payload[tgl_bayar]', '$payload[bulan_dibayar]', '$payload[tahun_dibayar]', '$payload[id_spp]', '$payload[jumlah_bayar]', '$payload[sisa_pembayaran]', '$payload[status]'");
+//
+//            if ($result) {
+//                echo "<script>successModal('Sukses', 'index.php', 'card-container')</script>";
+//            } else {
+//                echo "<script>errorModal('Gagal', null, 'card-container')</script>";
+//            }
+//
+//        } catch (Exception $e) {
+//            $error = str_replace("'", "", $e->getMessage());
+//            echo "<script>errorModal('2 $error', null, 'card-container')</script>";
+//        }
+//    }
 }
 ?>
 </body>
 </html>
+
