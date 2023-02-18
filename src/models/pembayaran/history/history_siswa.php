@@ -231,10 +231,6 @@ foreach (range($query['min_year'], $query['max_year']) as $year) {
 
                                             if ($roleManager->checkMinimumRole(RoleEnumeration::ADMINISTRATOR)) {
                                                 $actions = "
-                                                    <a href='".UtilsManager::generateRoute('pembayaran_transaksi_ubah',
-                                                                [
-                                                                        'pembayaran' => $item['id_pembayaran'],
-                                                                ])."' class='btn btn-warning'><i class='fa fa-edit'></i></a>
                                                     <a href='".UtilsManager::generateRoute('pembayaran_transaksi_hapus',
                                                                 [
                                                                         'pembayaran' => $item['id_pembayaran'],
