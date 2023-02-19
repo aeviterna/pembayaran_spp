@@ -3969,18 +3969,15 @@
 
 <div id="preloader"></div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"
-        integrity="sha512-1/RvZTcCDEUjY/CypiMz+iqqtaoQfAITmNSJY17Myp4Ms5mdxPS5UV7iOfdZoxcGhzFbOm6sntTKJppjvuhg4g=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"
-        integrity="sha512-A7AYk1fGKX6S2SsHywmPkrnzTZHrgiVT7GcQkLGDe2ev0aWb8zejytzS8wjo7PGEXKqJOrjQ4oORtnimIRZBtw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/glightbox/3.2.0/js/glightbox.min.js"
-        integrity="sha512-S/H9RQ6govCzeA7F9D0m8NGfsGf0/HjJEiLEfWGaMCjFzavo+DkRbYtZLSO+X6cZsIKQ6JvV/7Y9YMaYnSGnAA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/9.0.5/swiper-bundle.min.js"
-        integrity="sha512-cEcJcdNCHLm3YSMAwsI/NeHFqfgNQvO0C27zkPuYZbYjhKlS9+kqO5hZ9YltQ4GaTDpePDQ2SrEk8gHUVaqxig=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="/pwpb/pembayaran_spp/vendor/bootstrap.js"></script>
+<script src="/pwpb/pembayaran_spp/vendor/aos.js"></script>
+
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"-->
+<!--        integrity="sha512-1/RvZTcCDEUjY/CypiMz+iqqtaoQfAITmNSJY17Myp4Ms5mdxPS5UV7iOfdZoxcGhzFbOm6sntTKJppjvuhg4g=="-->
+<!--        crossorigin="anonymous" referrerpolicy="no-referrer"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"-->
+<!--        integrity="sha512-A7AYk1fGKX6S2SsHywmPkrnzTZHrgiVT7GcQkLGDe2ev0aWb8zejytzS8wjo7PGEXKqJOrjQ4oORtnimIRZBtw=="-->
+<!--        crossorigin="anonymous" referrerpolicy="no-referrer"></script>-->
 
 <!-- Template Main JS File -->
 <script>
@@ -4152,9 +4149,6 @@
         /**
          * Initiate glightbox
          */
-        const glightbox = GLightbox({
-            selector: '.glightbox'
-        });
 
         /**
          * Porfolio isotope and filter
@@ -4164,69 +4158,14 @@
         /**
          * Clients Slider
          */
-        new Swiper('.clients-slider', {
-            speed: 400,
-            loop: true,
-            autoplay: {
-                delay: 5000,
-                disableOnInteraction: false
-            },
-            slidesPerView: 'auto',
-            breakpoints: {
-                320: {
-                    slidesPerView: 2,
-                    spaceBetween: 40
-                },
-                480: {
-                    slidesPerView: 3,
-                    spaceBetween: 60
-                },
-                640: {
-                    slidesPerView: 4,
-                    spaceBetween: 80
-                },
-                992: {
-                    slidesPerView: 6,
-                    spaceBetween: 120
-                }
-            }
-        });
 
         /**
          * Testimonials Slider
          */
-        new Swiper('.testimonials-slider', {
-            speed: 600,
-            loop: true,
-            autoplay: {
-                delay: 5000,
-                disableOnInteraction: false
-            },
-            slidesPerView: 'auto',
-            pagination: {
-                el: '.swiper-pagination',
-                type: 'bullets',
-                clickable: true
-            }
-        });
 
         /**
          * Testimonials Slider
          */
-        new Swiper('.portfolio-details-slider', {
-            speed: 600,
-            loop: true,
-            autoplay: {
-                delay: 5000,
-                disableOnInteraction: false
-            },
-            slidesPerView: 'auto',
-            pagination: {
-                el: '.swiper-pagination',
-                type: 'bullets',
-                clickable: true
-            }
-        });
 
         /**
          * Animation on scroll function and init
