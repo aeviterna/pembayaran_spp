@@ -1,8 +1,8 @@
--- MariaDB dump 10.19  Distrib 10.9.5-MariaDB, for Linux (x86_64)
+-- MariaDB dump 10.19  Distrib 10.10.3-MariaDB, for Linux (x86_64)
 --
 -- Host: 127.0.0.1    Database: pwpb_spp
 -- ------------------------------------------------------
--- Server version	10.9.5-MariaDB
+-- Server version	10.10.3-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -30,7 +30,7 @@ CREATE TABLE `kelas` (
   `dibuat` timestamp NULL DEFAULT current_timestamp(),
   `dihapus` enum('0','1') NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_kelas`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,13 +40,9 @@ CREATE TABLE `kelas` (
 LOCK TABLES `kelas` WRITE;
 /*!40000 ALTER TABLE `kelas` DISABLE KEYS */;
 INSERT INTO `kelas` VALUES
-(1,'XII','RPL',NULL,NULL,'0'),
-(6,'XII','TKJ','2023-02-14 01:51:48','2023-02-14 01:51:48','0'),
-(7,'XI','RPL','2023-02-14 01:51:48','2023-02-14 01:51:48','0'),
-(8,'XI','TKJ','2023-02-14 01:51:48','2023-02-14 01:51:48','0'),
-(9,'X','RPL','2023-02-14 01:51:48','2023-02-14 01:51:48','0'),
-(10,'X','TKJ','2023-02-14 01:51:48','2023-02-14 01:51:48','0'),
-(11,'XII','BDP','2023-02-14 02:08:02','2023-02-14 02:08:02','0');
+(14,'XII','TKJ','2023-02-17 02:56:12','2023-02-17 02:56:12','0'),
+(15,'XII','RPL','2023-02-18 01:12:21','2023-02-18 01:12:21','0'),
+(16,'XII','MM','2023-02-18 01:12:31','2023-02-18 01:12:31','0');
 /*!40000 ALTER TABLE `kelas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -69,14 +65,16 @@ CREATE TABLE `pembayaran` (
   `diubah` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `dibuat` timestamp NULL DEFAULT current_timestamp(),
   `dihapus` enum('0','1') NOT NULL DEFAULT '0',
+  `sisa_pembayaran` int(11) DEFAULT NULL,
+  `status` enum('0','1') DEFAULT '0',
   PRIMARY KEY (`id_pembayaran`),
   KEY `id_petugas` (`id_petugas`),
   KEY `nisn` (`nisn`),
   KEY `id_spp` (`id_spp`),
   CONSTRAINT `pembayaran_ibfk_1` FOREIGN KEY (`id_petugas`) REFERENCES `petugas` (`id_petugas`),
   CONSTRAINT `pembayaran_ibfk_2` FOREIGN KEY (`nisn`) REFERENCES `siswa` (`nisn`),
-  CONSTRAINT `pembayaran_ibfk_3` FOREIGN KEY (`id_spp`) REFERENCES `siswa` (`id_spp`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  CONSTRAINT `pembayaran_ibfk_3` FOREIGN KEY (`id_spp`) REFERENCES `spp` (`id_spp`)
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -85,12 +83,6 @@ CREATE TABLE `pembayaran` (
 
 LOCK TABLES `pembayaran` WRITE;
 /*!40000 ALTER TABLE `pembayaran` DISABLE KEYS */;
-INSERT INTO `pembayaran` VALUES
-(7,57,'112','2023-02-15','02','2023',2,600000,'2023-02-15 01:34:00','2023-02-15 01:34:00','0'),
-(9,57,'112','2023-01-24','01','2023',2,700000,'2023-02-15 01:37:07','2023-02-15 01:37:07','0'),
-(10,57,'9111','2023-02-16','02','2023',2,700000,'2023-02-15 23:49:23','2023-02-15 23:49:23','0'),
-(11,57,'1121','2023-02-16','02','2023',1,400000,'2023-02-15 23:54:54','2023-02-15 23:54:54','0'),
-(12,57,'9111','2023-03-23','03','2023',2,700000,'2023-02-16 00:50:58','2023-02-16 00:50:58','0');
 /*!40000 ALTER TABLE `pembayaran` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -169,13 +161,7 @@ CREATE TABLE `siswa` (
 LOCK TABLES `siswa` WRITE;
 /*!40000 ALTER TABLE `siswa` DISABLE KEYS */;
 INSERT INTO `siswa` VALUES
-('0060071580','006112','Harry James Potter',1,'Potter Ancestral Manor','08112112',2,'$argon2i$v=19$m=65536,t=4,p=1$THpEbnNHbWZqY25sL3pFYQ$Yw/S/tL3vyhlc8mLygjJ9Q1BfysTLHYXwFseHmZpz1E',1,'2023-02-16 03:49:34','2023-02-16 03:49:34','0'),
-('112','112','aeviterna',11,'Alamat Rumah','1',2,'$argon2i$v=19$m=65536,t=4,p=1$UVJkb3RkalBoOGtZZ0JsRQ$QzMJas9LKVNS+bSASw3YKShxiOThdOjJtJyoPEm8B00',1,'2023-02-16 03:06:58','2023-02-12 05:05:19','0'),
-('1121','11211','Julius Tristan',10,'Alamat Julius Tristan','1',1,'$argon2i$v=19$m=65536,t=4,p=1$LldjWkU5N0d1Y3dRNHFsLg$lqxcHikpZ7+EWWaOcRWbdnHbnT7Tm0mF/DzGR1Wtq+Y',1,'2023-02-16 03:18:49','2023-02-14 06:01:18','0'),
-('18191012','121212121','Sagittarius Arcturus Black',6,'Grimmauld Place','018291821',1,'$argon2i$v=19$m=65536,t=4,p=1$L3VsWXg5S25KRkg4Nnd4Zg$KjgcqKuut8081CKwTZ+EqE49juEvvjOhTHM4LtCQBNM',1,'2023-02-16 03:53:46','2023-02-16 03:53:46','0'),
-('2020112233','493825923','Daphne Greengrass',11,'Greengrass Manor','092918391',1,'$argon2i$v=19$m=65536,t=4,p=1$dmpRazJzRVJYSzNpaGVleQ$zJ0/+/4cZVAPMYwlXhMQPbb8gJcbt+l+H8XPraqC5kU',1,'2023-02-16 03:51:48','2023-02-16 03:51:48','0'),
-('51985798135','424242','Antares Polaris Black',1,'Black Manor','08291821',1,'$argon2i$v=19$m=65536,t=4,p=1$ZW1ZNTNZM2tsbDNvSnZScQ$ESpLsGLBU5WfNayVXHzg/UroWFSpI2LVW8eBILwgoag',1,'2023-02-16 03:58:07','2023-02-16 03:58:07','0'),
-('9111','123','Yehezkiel Dio',1,'Jl. Inpress V','08112',2,'$argon2i$v=19$m=65536,t=4,p=1$Z0ZzNFIyaEllMmo2S1p5Tg$Yio5RU7fK3OMmpkWBkwPibjdJ8I/6YiuD+0v1r92e2U',1,'2023-02-16 03:35:47','2023-02-14 06:17:31','0');
+('112','112','Sagittarius Black',14,'England, United Kingdom','08112',8,'$argon2i$v=19$m=65536,t=4,p=1$VFBVWi9JZE9SWVFaSENQMQ$U/vIMv4UU4Xaio/HLKimBfhskjwhbd5SJBruXKC3L28',1,'2023-02-17 02:56:57','2023-02-17 02:56:57','0');
 /*!40000 ALTER TABLE `siswa` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -194,7 +180,7 @@ CREATE TABLE `spp` (
   `dibuat` timestamp NULL DEFAULT current_timestamp(),
   `dihapus` enum('0','1') NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_spp`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -204,8 +190,9 @@ CREATE TABLE `spp` (
 LOCK TABLES `spp` WRITE;
 /*!40000 ALTER TABLE `spp` DISABLE KEYS */;
 INSERT INTO `spp` VALUES
-(1,2023,300000,'2023-02-12 05:04:57','2023-02-12 05:04:58','0'),
-(2,2022,600000,'2023-02-14 02:08:51','2023-02-14 02:08:51','0');
+(8,2023,1500000,'2023-02-17 02:56:26','2023-02-17 02:56:26','0'),
+(9,2023,2000000,'2023-02-17 02:57:16','2023-02-17 02:57:16','0'),
+(10,2022,500000,'2023-02-18 01:12:51','2023-02-18 01:12:51','0');
 /*!40000 ALTER TABLE `spp` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -218,4 +205,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-02-16 12:12:15
+-- Dump completed on 2023-02-20  7:55:39

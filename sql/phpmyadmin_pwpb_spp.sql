@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Feb 18, 2023 at 10:31 AM
--- Server version: 10.9.5-MariaDB
--- PHP Version: 8.2.2
+-- Generation Time: Feb 20, 2023 at 07:55 AM
+-- Server version: 10.10.3-MariaDB
+-- PHP Version: 8.2.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -66,15 +66,6 @@ CREATE TABLE `pembayaran` (
   `sisa_pembayaran` int(11) DEFAULT NULL,
   `status` enum('0','1') DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `pembayaran`
---
-
-INSERT INTO `pembayaran` (`id_pembayaran`, `id_petugas`, `nisn`, `tgl_bayar`, `bulan_dibayar`, `tahun_dibayar`, `id_spp`, `jumlah_bayar`, `diubah`, `dibuat`, `dihapus`, `sisa_pembayaran`, `status`) VALUES
-(40, 61, '112', '2023-02-17', '02', '2023', 8, 1500000, '2023-02-17 03:01:36', '2023-02-17 02:58:29', '0', 0, '1'),
-(44, 61, '112', '2023-03-22', '03', '2023', 9, 1250000, '2023-02-18 01:13:35', '2023-02-17 03:00:53', '0', 750000, '0'),
-(46, 61, '112', '2023-02-17', '02', '2023', 9, 2000000, '2023-02-17 03:05:48', '2023-02-17 03:04:40', '0', 0, '1');
 
 -- --------------------------------------------------------
 
@@ -214,7 +205,7 @@ ALTER TABLE `kelas`
 -- AUTO_INCREMENT for table `pembayaran`
 --
 ALTER TABLE `pembayaran`
-  MODIFY `id_pembayaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id_pembayaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `petugas`
