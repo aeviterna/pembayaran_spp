@@ -199,7 +199,8 @@ foreach (range($query['min_year'], $query['max_year']) as $year) {
                                             }
                                         }
 
-                                        $pembayaran = $databaseManager->read('pembayaran', '*', "nisn = '$nisn'",
+                                        $pembayaran = $databaseManager->read('pembayaran', '*',
+                                                "nisn = '$nisn' AND dihapus = '0'",
                                                 "$extraFilter");
                                         $pembayaran = $pembayaran->fetch_all(MYSQLI_ASSOC);
 

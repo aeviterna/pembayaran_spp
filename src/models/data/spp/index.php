@@ -146,11 +146,7 @@ $result_count = $databaseManager->read("spp", "COUNT(id_spp) AS total_spp", "dih
                                    href="<?php
                                    echo UtilsManager::generateRoute('spp_tambah') ?>"><i
                                             class="fa fa-plus"></i>
-                                    Buat</a><a class="btn btn-warning btn-block mt-1"
-                                               href="<?php
-                                               echo UtilsManager::generateRoute('spp_pulih') ?>"><i
-                                            class="fa fa-wrench"></i>
-                                    Pulih</a>
+                                    Buat</a>
                             </div>
                         </div>
                     </div>

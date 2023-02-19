@@ -143,11 +143,7 @@ $result_count = $databaseManager->read("kelas", "COUNT(id_kelas) AS total_kelas"
                                    href="<?php
                                    echo UtilsManager::generateRoute('kelas_tambah') ?>"><i
                                             class="fa fa-plus"></i>
-                                    Buat</a><a class="btn btn-warning btn-block mt-1"
-                                               href="<?php
-                                               echo UtilsManager::generateRoute('kelas_pulih') ?>"><i
-                                            class="fa fa-wrench"></i>
-                                    Pulih</a>
+                                    Buat</a>
                             </div>
                         </div>
                     </div>

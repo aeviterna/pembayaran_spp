@@ -172,11 +172,7 @@ $result_count = $databaseManager->read("siswa", "COUNT(nisn) AS total_siswa", "d
                                    href="<?php
                                    echo generateUrl('siswa_tambah') ?>"><i
                                             class="fa fa-plus"></i>
-                                    Buat</a><a class="btn btn-warning btn-block mt-1"
-                                               href="<?php
-                                               echo generateUrl('siswa_pulih') ?>"><i
-                                            class="fa fa-wrench"></i>
-                                    Pulih</a>
+                                    Buat</a>
                             </div>
                         </div>
                     </div>

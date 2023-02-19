@@ -9,6 +9,14 @@ SessionManager::startSession();
 UtilsManager::isLoggedIn();
 UtilsManager::isAccountActivated();
 
+//SessionManager::set("username", "aeviterna");
+//SessionManager::set("id", 57);
+//SessionManager::set("logged_in", true);
+//SessionManager::set("is_siswa", false);
+//SessionManager::set("status", 1);
+//SessionManager::set("role", RoleEnumeration::ADMINISTRATOR);
+
+
 $pageItemObject = [
         'title'      => 'Utama',
         'breadcrumb' => [
