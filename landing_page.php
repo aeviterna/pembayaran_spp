@@ -9,33 +9,26 @@
     <meta content="" name="description">
     <meta content="" name="keywords">
 
-    <!-- Favicons -->
-    <link href="assets/img/favicon.png" rel="icon">
-    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-
     <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&display=swap"
-          rel="stylesheet">
+    <link rel="stylesheet" href="/pwpb/pembayaran_spp/vendor/sourcesans/font.css">
+
 
     <!-- Vendor CSS Files -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css"
-          integrity="sha512-SbiR/eusphKoMVVXysTKG/7VseWii+Y3FdHrt0EpKgpToZeemhqHeZeLWLhJutz/2ut2Vw1uQEj2MbRF+TVBUA=="
-          crossorigin="anonymous" referrerpolicy="no-referrer"/>
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css"
-          integrity="sha512-YFENbnqHbCRmJt5d+9lHimyEMt8LKSNTMLSaHjvsclnZGICeY/0KYEeiHwD1Ux4Tcao0h60tdcMv+0GljvWyHg=="
-          crossorigin="anonymous" referrerpolicy="no-referrer"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css"
-          integrity="sha512-1cK78a1o+ht2JcaW6g8OXYwqpev9+6GqOkz9xmBN9iUUhIndKtxwILGWYOSibOKjLsEdjyjZvYDq/cZwNeak0w=="
-          crossorigin="anonymous" referrerpolicy="no-referrer"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/glightbox/3.2.0/css/glightbox.min.css"
-          integrity="sha512-T+KoG3fbDoSnlgEXFQqwcTC9AdkFIxhBlmoaFqYaIjq2ShhNwNao9AKaLUPMfwiBPL0ScxAtc+UYbHAgvd+sjQ=="
-          crossorigin="anonymous" referrerpolicy="no-referrer"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/9.0.5/swiper-bundle.css"
-          integrity="sha512-CTWIgc35lLPcCl1OP7MNcrrES+jyBBvMEz8Cqx/v0hifPNjIpPsd/jUYTJ/41CYCrQdfuw7LopKaqqjXVLqejg=="
-          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css"-->
+    <!--          integrity="sha512-SbiR/eusphKoMVVXysTKG/7VseWii+Y3FdHrt0EpKgpToZeemhqHeZeLWLhJutz/2ut2Vw1uQEj2MbRF+TVBUA=="-->
+    <!--          crossorigin="anonymous" referrerpolicy="no-referrer"/>-->
+    <!--    <link rel="stylesheet"-->
+    <!--          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css"-->
+    <!--          integrity="sha512-YFENbnqHbCRmJt5d+9lHimyEMt8LKSNTMLSaHjvsclnZGICeY/0KYEeiHwD1Ux4Tcao0h60tdcMv+0GljvWyHg=="-->
+    <!--          crossorigin="anonymous" referrerpolicy="no-referrer"/>-->
+    <!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css"-->
+    <!--          integrity="sha512-1cK78a1o+ht2JcaW6g8OXYwqpev9+6GqOkz9xmBN9iUUhIndKtxwILGWYOSibOKjLsEdjyjZvYDq/cZwNeak0w=="-->
+    <!--          crossorigin="anonymous" referrerpolicy="no-referrer"/>-->
+
+    <link rel="stylesheet" href="/pwpb/pembayaran_spp/vendor/bootstrap.css">
+    <link rel="stylesheet" href="/pwpb/pembayaran_spp/vendor/bootstrap-icons.css">
+    <link rel="stylesheet" href="/pwpb/pembayaran_spp/vendor/aos.css">
+
 
     <style>
         :root {

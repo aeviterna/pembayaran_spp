@@ -1,4 +1,6 @@
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!--<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>-->
+<script src="/pwpb/pembayaran_spp/vendor/sweetalert2.js"></script>
+
 <script lang="js">
     function confirmModal(type, value, hidden = null) {
         if (hidden != null) document.getElementById(hidden).style.display = "none";
